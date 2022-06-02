@@ -23,24 +23,33 @@ export async function getPatient(query) {
       method: "GET",
     }
   );
+  function checkUndefined(value) {
+    return value !== undefined || null ? value : "";
+  }
   if (searchResult?.data?.entry) {
     searchResult?.data?.entry.forEach(function (item, i) {
       patients.push({
         id: i,
-        No_dossier: item?.resource?.identifier[0]?.value,
-        firstName: item?.resource?.name[0]?.family,
-        lastName: item?.resource?.name[0]?.given.map((lastName) => {
-          return lastName + " ";
+        No_dossier: checkUndefined(item?.resource?.identifier?.[0]?.value),
+        firstName: checkUndefined(item?.resource?.name?.[0]?.family),
+        lastName: item?.resource?.name?.[0]?.given?.map((lastName) => {
+          return checkUndefined(lastName) + " ";
         }),
-        birth: item?.resource?.birthDate,
+        birth: checkUndefined(item?.resource?.birthDate),
         residence:
-          item?.resource?.address?.[0]?.country +
-          "," +
-          item.resource?.address?.[0]?.city +
-          "," +
-          item.resource?.address?.[0].extension[0]?.extension[0]?.valueString,
+          checkUndefined(item?.resource?.address?.[0]?.country) +
+          ", " +
+          checkUndefined(item?.resource?.address?.[0]?.city) +
+          ", " +
+          checkUndefined(
+            item?.resource?.address?.[0]?.extension?.[0]?.extension?.[0]
+              ?.valueString
+          ),
         habitat: "",
-        gender: item?.resource?.gender,
+        phoneNumber: item?.resource?.telecom?.map((phone, i) => {
+          return checkUndefined(phone.value) + " ";
+        }),
+        gender: checkUndefined(item?.resource?.gender),
         occupation: "",
         matrimonial: "",
         deathDate: "",

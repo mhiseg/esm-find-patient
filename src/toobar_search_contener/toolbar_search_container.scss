@@ -58,10 +58,9 @@
 .searchResults_ShowChildren {
   position: absolute;
   max-height: 88vh;
-  overflow: scroll;
-  overflow-x: hidden;
+  margin-top: 1vh;
   overflow-y: auto;
-    width: 100%;
+  width: 100%;
 }
 
 .Button {

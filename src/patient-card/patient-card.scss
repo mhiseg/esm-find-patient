@@ -17,7 +17,6 @@ $feature-flags: (
         font-size: 32px;
         line-height: 38px;
         text-transform: uppercase;
-        color: #034E5E;
         margin: auto;
 
         span {
@@ -27,24 +26,48 @@ $feature-flags: (
         }
     }
 }
-
-.alias {
-    font-size: 48px;
-    color: whitesmoke;
-    font-weight: bolder;
-    padding: 0;
-    margin-top: 15px;
-    margin-left: 25px;
-}
-
 .align {
     float: right;
 }
-
 .patientPhoto {
-    padding: 5px;
     border-radius: 5px;
-    background-color:rgb(12,247,165);
+    position: relative;
+    width: 100%;
+    background-color: rgb(12, 247, 165);
+
+    .alias {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 800;
+        font-size: 40px;
+        color: white;
+        text-align: center;
+    }
+
+}
+
+
+@media screen and (min-width: 1900px) {
+    .patientPhoto {
+        border-radius: 5px;
+        position: relative;
+        height: 15vh;
+        width: 100%;
+        background-color: rgb(12, 247, 165);
+
+        .alias {
+            font-family: 'Roboto';
+            font-style: normal;
+            position: relative;
+            font-weight: 800;
+            font-size: 50px;
+            color: white;
+            margin-top: 50%;
+            margin-bottom: -50%;
+            text-align: center;
+        }
+
+    }
 }
 
 .patientInfo {

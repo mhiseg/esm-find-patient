@@ -25,6 +25,7 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
       input.current.focus();
     }
   };
+
   const onInputChange = (e) => {
     if (input.current.value.trim().length == 0) {
       setActiveRemoveIcon(true);
@@ -66,6 +67,7 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
         type="text"
         placeholder="Search..."
         className={styles["search-1"]}
+        autoComplete="off"
         onChange={onChangeInput}
         onInput={onInputChange}
       />
