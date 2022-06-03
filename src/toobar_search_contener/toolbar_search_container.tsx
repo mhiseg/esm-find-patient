@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./toolbar_search_container.scss";
-import Add from "@carbon/icons-react/es/add/20";
-import SearchIcon from "@carbon/icons-react/es/search/20";
+import Add from "@carbon/icons-react/es/add/32";
+import SearchIcon from "@carbon/icons-react/es/search/16";
 import { Delete } from "@carbon/pictograms-react";
 import { Button } from "carbon-components-react";
 

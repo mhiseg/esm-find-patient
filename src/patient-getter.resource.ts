@@ -28,6 +28,7 @@ export async function getPatient(query) {
   }
   if (searchResult?.data?.entry) {
     searchResult?.data?.entry.forEach(function (item, i) {
+      console.log(item);
       patients.push({
         id: i,
         No_dossier: checkUndefined(item?.resource?.identifier?.[0]?.value),
@@ -47,7 +48,7 @@ export async function getPatient(query) {
           ),
         habitat: "",
         phoneNumber: item?.resource?.telecom?.map((phone, i) => {
-          return checkUndefined(phone.value) + " ";
+          return checkUndefined(phone.value);
         }),
         gender: checkUndefined(item?.resource?.gender),
         occupation: "",
