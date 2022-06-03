@@ -1,0 +1,100 @@
+$feature-flags: (
+    grid-columns-16: true
+);
+
+.cardBox {
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.30);
+    border-radius: 5px;
+    border: 0.1px solid #c5c4c4;
+    text-align: start;
+    margin-bottom: 10px;
+
+    .name {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-size: 32px;
+        line-height: 38px;
+        text-transform: uppercase;
+        color: #034E5E;
+        margin: auto;
+
+        span {
+            text-transform: none;
+            font-weight: bold;
+
+        }
+    }
+}
+
+.align {
+    float: right;
+}
+
+
+@media only screen and (min-width: 600px)  {
+
+    .patientPhoto {
+        border-radius: 5px;
+        position: relative;
+        width: 100%;
+        background-color: rgb(12, 247, 165);
+        .alias {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 800;
+            font-size: 50px;
+            justify-content: center;
+            text-align: center;
+        }
+    }  
+}
+
+.patientInfo {
+    background-color: green;
+}
+
+.pm0 {
+    margin: 0;
+    padding: 0;
+}
+
+.padding-left {
+    padding-left: 0;
+}
+
+
+.borderBottom {
+    border-bottom: 0.5px solid #d6d6d6;
+    margin-left: 2px;
+    margin-bottom: .6rem;
+}
+
+.borderLeft {
+    border-left: 0.5px solid #d6d6d6;
+}
+
+.heartStyle {
+    display: block;
+    margin: auto;
+    color: #ff0404;
+    width: 42px;
+    height: 43.45px;
+}
+
+.icon {
+    color: #034e5e;
+    width: 30px;
+    height: 30px;
+    margin-bottom: -7px;
+    padding-right: 5px;
+}
+
+.iconHead {
+    color: #034e5e;
+    width: 50px;
+    height: 50px;
+    margin-bottom: -7px;
+    padding-right: 5px;
+}

@@ -1,0 +1,16 @@
+import React from "react";
+import { Column } from "carbon-components-react";
+import { Icon } from "@iconify/react";
+import styles from "./patient-card.scss";
+
+export default function PatientCardCell({icon}){
+    
+        return <>
+         <Column>
+        <p>
+         
+          Show relationships
+        </p>
+      </Column>
+      </>
+}

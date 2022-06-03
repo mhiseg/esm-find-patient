@@ -81,7 +81,7 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
       />
       <Button
         renderIcon={Add}
-        iconDescription="add new patient"
+        iconDescription=""
         hasIconOnly
         onClick={onClickChangeButton}
         className={styles.Button}

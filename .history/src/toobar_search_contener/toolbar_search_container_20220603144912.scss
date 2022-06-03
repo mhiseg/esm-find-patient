@@ -1,0 +1,82 @@
+.SearchIcon {
+  position: absolute;
+  z-index: 9;
+}
+
+.SearchIconChild {
+  display: none;
+}
+
+#removeIcon {
+  margin-left: 6px;
+  margin-top: -16px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+#searchIcon {
+  margin-top: 8px;
+  margin-left: 10px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.search-1 {
+  position: relative;
+  width: 80%;
+  height: 34px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  background-position: 10px 10px;
+  background: none;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+.search-1:focus {
+  box-sizing: border-box;
+  appearance: none;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.searchResults_Show {
+  width: 79%;
+  margin: auto;
+  align-items: center;
+  position: relative;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.desactive {
+  display: none;
+
+}
+
+.searchResults_ShowChildren {
+  position: absolute;
+  max-height: 88vh;
+  margin-top: 1em;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.Button {
+  margin-left: 5px;
+  background: #034E5E;
+  border-radius: 5px;
+  justify-content: center;
+  background: none;
+  border:2px solid #034E5E;
+  color: #034E5E;
+  width: 22px;
+}
+
+.Button:hover {
+  background-color: #034E5E;
+  color: white;
+  border: none;
+}
