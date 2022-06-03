@@ -8,9 +8,10 @@
 }
 
 #removeIcon {
-  margin-top: -16px;
   margin-left: 6px;
+  margin-top: 6px;
   width: 20px;
+  height: 20px;
   cursor: pointer;
 }
 
@@ -36,11 +37,6 @@
   transition: width 0.4s ease-in-out;
 }
 
-.search-1:focus {
-  box-sizing: border-box;
-  appearance: none;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-}
 
 .searchResults_Show {
   width: 79%;

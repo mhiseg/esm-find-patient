@@ -4,6 +4,7 @@ import Add from "@carbon/icons-react/es/add/32";
 import SearchIcon from "@carbon/icons-react/es/search/16";
 import { Delete } from "@carbon/pictograms-react";
 import { Button } from "carbon-components-react";
+import { Icon } from "@iconify/react";
 
 export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
   const [isActiveSearchIcon, setActiveSearchIcon] = useState(false);
@@ -55,10 +56,17 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
           className={isActiveSearchIcon ? styles["SearchIconChild"] : ""}
           onClick={toggleClass}
         />
-        <Delete
+        {/* <Delete
           id={styles.removeIcon}
           onClick={toggleClass}
           className={isActiveRemoveIcon ? styles["SearchIconChild"] : ""}
+        /> */}
+
+        <Icon
+          icon="gridicons:cross-small"
+          id={styles.removeIcon}
+          className={isActiveRemoveIcon ? styles["SearchIconChild"] : ""}
+          onClick={toggleClass}
         />
       </i>
       <input
