@@ -1,3 +1,34 @@
+$ui-background: #ffffff;
+$ui-03: #ffffff;
+$ui-04: #000000;
+$ui-05: #920000;
+$brand-01: #034E5E;
+$brand-02: #022d36;
+$inverse-link: #78a9ff;
+$field-01: #f4f4f4;
+$labeldropdown: #c6c6c6;
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: gray; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $brand-01; 
+}
+
 .SearchIcon {
   position: absolute;
   z-index: 9;
@@ -39,7 +70,7 @@
 
 
 .searchResults_Show {
-  width: 79%;
+  width: 80%;
   margin: auto;
   align-items: center;
   position: relative;
@@ -53,7 +84,8 @@
 
 .searchResults_ShowChildren {
   position: absolute;
-  max-height: 88vh;
+  max-height: 76.5vh;
+  margin-left: -10px;
   margin-top: 1em;
   overflow-y: auto;
   width: 100%;
@@ -61,17 +93,20 @@
 
 .Button {
   margin-left: 5px;
-  background: #034E5E;
+  background: $brand-01;
   border-radius: 5px;
   justify-content: center;
   background: none;
-  border:2px solid #034E5E;
-  color: #034E5E;
-  width: 22px;
+  border:2px solid $brand-01;
+  color: $brand-01;
+  width: 20px;
+  :last-child{
+    width: 1000%;
+    height:100%;
+  }
 }
 
 .Button:hover {
-  background-color: #034E5E;
-  color: white;
-  border: none;
+  background-color: $brand-01;
+  color: $ui-03;
 }

@@ -25,13 +25,13 @@ const PatientCard = ({ Patient }) => {
                 <Row className={styles.borderBottom}>
                   <Column className={styles.pm0} lg={6}>
                     <h1 className={styles.name}>
-                      {Patient.gender === "female" ? (
+                      {Patient.gender == "F" ? (
                         <Icon
                           icon="emojione-monotone:woman"
                           className={styles.iconHead}
                         />
                       ) : null}
-                      {Patient.gender === "male" ? (
+                      {Patient.gender == "M" ? (
                         <Icon
                           icon="emojione-monotone:man"
                           className={styles.iconHead}
@@ -68,7 +68,7 @@ const PatientCard = ({ Patient }) => {
                 <Column lg={3}>
                   <PatientCardCell
                     icon="ant-design:field-number-outlined"
-                    label="400381P75"
+                    label={Patient.identify}
                   />
 
                   <PatientCardCell
@@ -87,22 +87,21 @@ const PatientCard = ({ Patient }) => {
                     icon="bxs:phone-call"
                     label={Patient.phoneNumber}
                   />
-                  <PatientCardCell
-                    icon="fxemoji:email"
-                    label="louisshacha@gmail.com"
-                  />
+                  <PatientCardCell icon="ep:place" label={Patient.birthplace} />
                   <PatientCardCell
                     icon="akar-icons:link-chain"
                     label="Show relationships"
                   />
                 </Column>
 
-                <Column lg={2} className={`${styles.pm0} ${styles.borderLeft}`}>
-                  <Column>
-                    <Icon
-                      icon="fluent:heart-pulse-20-filled"
-                      className={styles.heartStyle}
-                    />
+                <Column lg={2} className={styles.pm0}>
+                  <Column className={styles.borderLeft}>
+                    {!Patient.death && (
+                      <Icon
+                        icon="fluent:heart-pulse-20-filled"
+                        className={styles.heartStyle}
+                      />
+                    )}
                   </Column>
                 </Column>
               </Row>

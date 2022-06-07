@@ -46,8 +46,7 @@
     "@carbon/icons-react": "^11.4.0",
     "@carbon/pictograms-react": "^11.26.2",
     "carbon-components-react": "^7.25.0",
-    "lodash-es": "^4.17.15",
-    "randomcolor": "^0.6.2"
+    "lodash-es": "^4.17.15"
   },
   "peerDependencies": {
     "@openmrs/esm-framework": "^3.14.0-pre",

@@ -56,11 +56,6 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
           className={isActiveSearchIcon ? styles["SearchIconChild"] : ""}
           onClick={toggleClass}
         />
-        {/* <Delete
-          id={styles.removeIcon}
-          onClick={toggleClass}
-          className={isActiveRemoveIcon ? styles["SearchIconChild"] : ""}
-        /> */}
 
         <Icon
           icon="gridicons:cross-small"

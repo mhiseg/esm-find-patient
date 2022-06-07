@@ -18,39 +18,52 @@ import { openmrsFetch, fhir } from "@openmrs/esm-framework";
 export async function getPatient(query) {
   let patients = [];
   const searchResult = await openmrsFetch(
-    `/ws/fhir2/R4/Patient?&given=&name=${query}`,
+    `/ws/rest/v1/patient?q=${query}&v=full`,
     {
       method: "GET",
     }
   );
   function checkUndefined(value) {
-    return value !== undefined || null ? value : "";
+    return value !== null && value !== undefined ? value : "";
   }
-  if (searchResult?.data?.entry) {
-    searchResult?.data?.entry.forEach(function (item, i) {
-      console.log(item);
+  if (searchResult) {
+    searchResult?.data?.results.forEach(function (item, i) {
       patients.push({
         id: i,
-        No_dossier: checkUndefined(item?.resource?.identifier?.[0]?.value),
-        firstName: checkUndefined(item?.resource?.name?.[0]?.family),
-        lastName: item?.resource?.name?.[0]?.given?.map((lastName) => {
-          return checkUndefined(lastName) + " ";
+        identify: item?.identifiers?.map((element) => {
+          return element?.identifierType?.display === ("CIN" || "NIF")
+            ? checkUndefined(element?.identifier)
+            : null;
         }),
-        birth: checkUndefined(item?.resource?.birthDate),
+        No_dossier: checkUndefined(item?.identifiers[0]?.identifier),
+        firstName: checkUndefined(item?.person?.names?.[0]?.familyName),
+        lastName: checkUndefined(
+          item?.person?.names?.[0]?.givenName +
+            " " +
+            checkUndefined(item?.person?.names?.[0]?.middleName)
+        ),
+        birth: checkUndefined(item?.person?.birthdate.split("T")?.[0]),
         residence:
-          checkUndefined(item?.resource?.address?.[0]?.country) +
+          checkUndefined(item?.person?.addresses?.[0]?.country) +
           ", " +
-          checkUndefined(item?.resource?.address?.[0]?.city) +
+          checkUndefined(item?.person?.addresses?.[0]?.cityVillage) +
           ", " +
-          checkUndefined(
-            item?.resource?.address?.[0]?.extension?.[0]?.extension?.[0]
-              ?.valueString
-          ),
+          checkUndefined(item?.person?.addresses?.[0]?.display),
+        birthPlace: "",
         habitat: "",
-        phoneNumber: item?.resource?.telecom?.map((phone, i) => {
-          return checkUndefined(phone.value);
+        phoneNumber: item?.person?.attributes?.map((element) => {
+          return element?.attributeType?.display == "Telephone Number"
+            ? checkUndefined(element?.value)
+            : null;
         }),
-        gender: checkUndefined(item?.resource?.gender),
+        gender: checkUndefined(item?.person?.gender),
+
+        birthplace: item?.person?.attributes?.map((element) => {
+          return element?.attributeType?.display === "Birthplace"
+            ? checkUndefined(element?.value)
+            : null;
+        }),
+        death: item.person.death,
         occupation: "",
         matrimonial: "",
         deathDate: "",
