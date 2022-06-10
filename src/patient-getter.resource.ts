@@ -30,7 +30,6 @@ export async function getPatient(query) {
   }
   if (searchResult) {
     searchResult?.data?.results.forEach(function (item, i) {
-      console.log(item);
       patients.push({
         id: i,
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./searchPatient.scss";
-import { SearchInput } from "../toobar_search_contener/toolbar_search_container";
+import { SearchInput } from "../toobar_search_container/toolbar_search_container";
 import PatientCard from "../patient-card/patient-card";
 import { getPatient } from "../patient-getter.resource";
 import { navigate, NavigateOptions } from "@openmrs/esm-framework";

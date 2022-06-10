@@ -1,4 +1,7 @@
-{"New patient":"Nouveau patient",
+{
+    "Search": "Rechercher...",
+    "searchPatient":"Rechercher un patient",
+    "New patient": "Nouveau patient",
     "clearSearch": "Clear",
     "error": "Erreur",
     "errorCopy": "Désolé, une erreur s'est produite. Vous pouvez essayer de recharger cette page, ou contacter l'administrateur du site et citer le code d'erreur ci-dessus.",
@@ -8,6 +11,5 @@
     "orPatientName": "OU le(s) nom(s) du patient",
     "search": "Chercher",
     "searchForPatient": "Rechercher un patient par nom ou numéro d'identification",
-    "trySearchWithPatientUniqueID": "Essayez de rechercher avec le numéro d'identification unique du patient",
-    "New patient":"Nouveau patient"
+    "trySearchWithPatientUniqueID": "Essayez de rechercher avec le numéro d'identification unique du patient"
 }
