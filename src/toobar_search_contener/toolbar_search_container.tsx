@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./toolbar_search_container.scss";
 import Add from "@carbon/icons-react/es/add/32";
 import SearchIcon from "@carbon/icons-react/es/search/16";
-import { Delete } from "@carbon/pictograms-react";
-import { Button } from "carbon-components-react";
+import { Button, Tile } from "carbon-components-react";
 import { Icon } from "@iconify/react";
+import EmptyDataIllustration from "./empty-data-illustration.component";
+import { useTranslation } from "react-i18next";
+import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 
 export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
   const [isActiveSearchIcon, setActiveSearchIcon] = useState(false);
@@ -12,6 +14,8 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
   const [isSearching, setSearching] = useState(false);
   const input = useRef(null);
   const searchboxResult = useRef(null);
+  const { t } = useTranslation();
+  const to: NavigateOptions = { to: window.spaBase + "/death/add-patient" };
 
   const toggleClass = (e) => {
     if (e.currentTarget.id == styles.removeIcon) {
@@ -83,17 +87,52 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
         size="sm"
       />
       <div
-        className={
-          isSearching == true ? styles.searchResults_Show : styles.desactive
-        }
+        className={isSearching ? styles.searchResults_Show : styles.desactive}
       >
         <div
           ref={searchboxResult}
           className={styles.searchResults_ShowChildren}
         >
-          {isSearching == true && children}
+          {isSearching && children}
         </div>
       </div>
+      {input?.current?.value?.trim()?.length >= 3 && !isSearching && (
+        <div className={styles.searchResults_Notfound}>
+          <div className={styles.searchResults_NotfoundChildren}>
+            <p className={styles.resultsText}>
+              {t("noResultsFound", "No results found")}
+            </p>
+            <Tile className={styles.emptySearchResultsTile}>
+              <EmptyDataIllustration />
+              <p className={styles.emptyResultText}>
+                {t(
+                  "noPatientChartsFoundMessage",
+                  "Sorry, no patient charts have been found"
+                )}
+              </p>
+              <p className={styles.actionText}>
+                <span>
+                  {t(
+                    "trySearchWithPatientUniqueID",
+                    "Try searching with the patient's unique ID number"
+                  )}
+                </span>
+                <br />
+                <span>{t("orPatientName", "OR the patient's name(s)")}</span>
+              </p>
+              <Button
+                className={styles.ButtonAdd}
+                onClick={() => {
+                  navigate(to);
+                }}
+              >
+                {" "}
+                {t("New patient")}
+              </Button>
+            </Tile>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

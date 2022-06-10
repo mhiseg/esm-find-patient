@@ -14,19 +14,19 @@ $labeldropdown: #c6c6c6;
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
+  box-shadow: inset 0 0 5px grey;
   border-radius: 10px;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: gray; 
+  background: gray;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: $brand-01; 
+  background: $brand-01;
 }
 
 .SearchIcon {
@@ -68,8 +68,7 @@ $labeldropdown: #c6c6c6;
   transition: width 0.4s ease-in-out;
 }
 
-
-.searchResults_Show {
+.searchResults_Show, .searchResults_Notfound  {
   width: 80%;
   margin: auto;
   align-items: center;
@@ -77,12 +76,17 @@ $labeldropdown: #c6c6c6;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
+.resultsText {
+  color: $ui-04;
+  padding: 0rem;
+}
+
 .desactive {
   display: none;
 
 }
 
-.searchResults_ShowChildren {
+.searchResults_ShowChildren, .searchResults_NotfoundChildren  {
   position: absolute;
   max-height: 76.5vh;
   margin-left: -10px;
@@ -97,16 +101,22 @@ $labeldropdown: #c6c6c6;
   border-radius: 5px;
   justify-content: center;
   background: none;
-  border:2px solid $brand-01;
+  border: 2px solid $brand-01;
   color: $brand-01;
   width: 20px;
-  :last-child{
+
+  :last-child {
     width: 1000%;
-    height:100%;
+    height: 100%;
   }
 }
 
-.Button:hover {
+.ButtonAdd:hover,.Button:hover {
   background-color: $brand-01;
   color: $ui-03;
+}
+.ButtonAdd{
+  margin-top: 3%;
+  background-color: $brand-02;
+padding: 1%;
 }
