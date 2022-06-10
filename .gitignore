@@ -62,5 +62,8 @@ typings/
 
 dist/
 .history/
+mhiseg-esm-find-patient-app/
+.history/
+.idea
 # Intellij integration
 *.iml
