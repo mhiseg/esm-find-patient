@@ -1,4 +1,5 @@
 import { openmrsFetch, fhir } from "@openmrs/esm-framework";
+import { random } from "lodash-es";
 
 /**
  * This is a somewhat silly resource function. It searches for a patient
@@ -23,6 +24,7 @@ export async function getPatient(query) {
       method: "GET",
     }
   );
+
   function checkUndefined(value) {
     return value !== null && value !== undefined ? value : "";
   }
@@ -30,32 +32,41 @@ export async function getPatient(query) {
     searchResult?.data?.results.forEach(function (item, i) {
       patients.push({
         id: i,
+
         identify: item?.identifiers?.map((element) => {
           return element?.identifierType?.display === ("CIN" || "NIF")
             ? checkUndefined(element?.identifier)
             : null;
         }),
         No_dossier: checkUndefined(item?.identifiers[0]?.identifier),
+
         firstName: checkUndefined(item?.person?.names?.[0]?.familyName),
+
         lastName: checkUndefined(
           item?.person?.names?.[0]?.givenName +
             " " +
             checkUndefined(item?.person?.names?.[0]?.middleName)
         ),
+
         birth: checkUndefined(item?.person?.birthdate.split("T")?.[0]),
+
         residence:
           checkUndefined(item?.person?.addresses?.[0]?.country) +
           ", " +
           checkUndefined(item?.person?.addresses?.[0]?.cityVillage) +
           ", " +
           checkUndefined(item?.person?.addresses?.[0]?.display),
+
         birthPlace: "",
+
         habitat: "",
+
         phoneNumber: item?.person?.attributes?.map((element) => {
-          return element?.attributeType?.display == "Telephone Number"
+          return element?.attributeType?.display === "Telephone Number"
             ? checkUndefined(element?.value)
             : null;
         }),
+
         gender: checkUndefined(item?.person?.gender),
 
         birthplace: item?.person?.attributes?.map((element) => {
@@ -63,9 +74,13 @@ export async function getPatient(query) {
             ? checkUndefined(element?.value)
             : null;
         }),
+
         death: item.person.death,
+
         occupation: "",
+
         matrimonial: "",
+
         deathDate: "",
       });
     });

@@ -1,5 +1,5 @@
 import React from "react";
-import { Column, Grid, Row, Tile } from "carbon-components-react";
+import { Button, Column, Grid, Row, Tile } from "carbon-components-react";
 import { Icon } from "@iconify/react";
 import styles from "./patient-card.scss";
 import PatientCardCell from "./patient-cardCell";
@@ -41,10 +41,10 @@ const PatientCard = ({ Patient }) => {
                     </h1>
                   </Column>
                   <Column className={styles.pm0} lg={6}>
-                    <h1 className={`${styles.align} ${styles.pm0}`}>
+                    <h3 className={`${styles.align} ${styles.pm0}`}>
                       <Icon icon="bxs:folder" className={styles.iconHead} />
                       {Patient.No_dossier}
-                    </h1>
+                    </h3>
                   </Column>
                 </Row>
               </Column>
@@ -96,12 +96,34 @@ const PatientCard = ({ Patient }) => {
 
                 <Column lg={2} className={styles.pm0}>
                   <Column className={styles.borderLeft}>
-                    {!Patient.death && (
-                      <Icon
-                        icon="fluent:heart-pulse-20-filled"
-                        className={styles.heartStyle}
-                      />
-                    )}
+                    <Icon
+                      icon="fluent:heart-pulse-20-filled"
+                      className={
+                        !Patient.death
+                          ? `${styles.heartStyle} ${styles.heartRed}`
+                          : `${styles.heartStyle} ${styles.heartGray}`
+                      }
+                    />
+                    <Column>
+                      {!Patient.death ? (
+                        <Button className={styles.cardButton}>
+                          {" "}
+                          Valider{" "}
+                          <Icon
+                            icon="flat-color-icons:ok"
+                            className={styles.cardButtonIcon}
+                          />
+                        </Button>
+                      ) : (
+                        <Button className={styles.cardButton}>
+                          Imprimer{" "}
+                          <Icon
+                            icon="cil:print"
+                            className={styles.cardButtonIcon}
+                          />
+                        </Button>
+                      )}
+                    </Column>
                   </Column>
                 </Column>
               </Row>
