@@ -33,7 +33,6 @@ function setupOpenMRS() {
         route: "death/search",
       },
     ],
-    extensions: [{}],
   };
 }
 

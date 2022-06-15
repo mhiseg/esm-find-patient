@@ -90,7 +90,7 @@ const PatientCard = ({ Patient }) => {
                   <PatientCardCell icon="ep:place" label={Patient.birthplace} />
                   <PatientCardCell
                     icon="akar-icons:link-chain"
-                    label="Show relationships"
+                    label={Patient.relationship}
                   />
                 </Column>
 

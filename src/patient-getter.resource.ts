@@ -6,10 +6,9 @@ export const to: NavigateOptions = {
 
 export async function getPatient(query) {
   let patients;
-  const uuids = await openmrsFetch(
-    `/ws/fhir2/R4/Patient?&given=&name=${query}`,
-    { method: "GET" }
-  );
+  const uuids = await openmrsFetch(`/ws/fhir2/R4/Patient?name=${query}`, {
+    method: "GET",
+  });
 
   if (uuids.data.entry) {
     patients = Promise.all(
@@ -21,54 +20,63 @@ export async function getPatient(query) {
             method: "GET",
           }
         );
-        return formatPatient(patient.data);
+        const relationships = await openmrsFetch(
+          `/ws/rest/v1/relationship?v=full&person=${uuid}`,
+          {
+            method: "GET",
+          }
+        );
+        return formatPatient(patient.data, relationships.data);
       })
     );
   }
-  const formatIdentify = (item) =>
+  const formatAttribute = (item) =>
     item.map((identifier) => {
       return {
-        type: identifier.display.split(" = ")[0],
-        identifier: identifier.display.split(" = ")[1],
+        type: identifier.display.split(" = ")[0].trim(),
+        value: identifier.display.split(" = ")[1].trim(),
       };
     });
 
-  const formatPatient = (item) => {
-    const identities = formatIdentify(item.identifiers);
+  const formatPatient = (patient, relationship) => {
+    const identities = formatAttribute(patient.identifiers);
+    const personAttributes = formatAttribute(patient.person?.attributes);
     return {
-      id: item.uuid,
-      identify: identities[1]?.identifier,
-      No_dossier: identities[0]?.identifier,
-      firstName: item?.person?.names?.[0]?.familyName,
-      lastName: item?.person?.names?.[0]?.givenName,
-      birth: item?.person?.birthdate.split("T")?.[0],
-      residence:
-        item?.person?.addresses?.[0]?.country +
-        ", " +
-        item?.person?.addresses?.[0]?.cityVillage +
-        ", " +
-        item?.person?.addresses?.[0]?.display,
-      birthPlace: "",
+      id: patient.uuid,
+      identify: identities.find(
+        (identifier) => identifier.type == "CIN" || identifier.type == "CIN"
+      )?.value,
+      No_dossier: identities.find(
+        (identifier) => identifier.type == "OpenMRS ID"
+      )?.value,
+      firstName: patient?.person?.names?.[0]?.familyName,
+      lastName: patient?.person?.names?.[0]?.givenName,
+      birth: patient?.person?.birthdate.split("T")?.[0],
+      residence: displayResidence(patient.person?.addresses[0]),
       habitat: "",
-
-      phoneNumber: item?.person?.attributes?.map((element) => {
-        return element?.attributeType?.display === "Telephone Number"
-          ? element.value
-          : null;
-      }),
-
-      gender: checkUndefined(item?.person?.gender),
-
-      birthplace: item?.person?.attributes?.map((element) => {
-        return element?.attributeType?.display === "Birthplace"
-          ? checkUndefined(element?.value)
-          : null;
-      }),
-      death: item.person.death,
+      phoneNumber: personAttributes.find(
+        (attribute) => attribute.type == "Telephone Number"
+      )?.value,
+      gender: checkUndefined(patient?.person?.gender),
+      birthplace: personAttributes.find(
+        (attribute) => attribute.type == "Birthplace"
+      )?.value,
+      death: patient.person.death,
       occupation: "",
       matrimonial: "",
       deathDate: "",
+      relationship: relationship?.results[0].display,
     };
+  };
+  const displayResidence = (addresses) => {
+    if (addresses && addresses.country && addresses.cityVillage) {
+      return (
+        (addresses.address1 ? addresses.address1 + ", " : "") +
+        addresses.cityVillage +
+        ", " +
+        addresses.country
+      );
+    }
   };
   const checkUndefined = (value) => {
     return value !== null || value !== undefined ? value : "";
