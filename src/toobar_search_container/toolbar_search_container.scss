@@ -1,0 +1,135 @@
+$ui-background: #ffffff;
+$ui-03: #ffffff;
+$ui-04: #000000;
+$ui-05: #920000;
+$brand-01: #034E5E;
+$brand-02: #022d36;
+$inverse-link: #78a9ff;
+$field-01: #f4f4f4;
+$labeldropdown: #c6c6c6;
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $brand-01;
+}
+
+.SearchIcon {
+  position: absolute;
+  z-index: 9;
+}
+
+.SearchIconChild {
+  display: none;
+}
+
+#removeIcon {
+  margin-left: 6px;
+  margin-top: 6px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+#searchIcon {
+  margin-top: 8px;
+  margin-left: 10px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.search-1 {
+  position: relative;
+  width: 80%;
+  height: 34px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  background-position: 10px 10px;
+  background: #ffffff;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+.searchResults_Show, .searchResults_Notfound  {
+  width: 80%;
+  margin: auto;
+  align-items: center;
+  position: relative;
+  min-height: 300px;
+  height: 78vh;
+}
+
+.resultsText {
+  color: $ui-04;
+  padding: 0rem;
+}
+
+.desactive {
+  display: none;
+
+}
+.searchResults_ShowChildren{
+  position: absolute;
+  max-height: 76.5vh;
+  height:auto;
+  margin-left: -10px;
+  margin-top: 1em;
+  overflow-y: auto;
+  width: 100%; 
+  height: 100%;
+}
+
+.searchResults_NotfoundChildren  {
+  position: absolute;
+  height:auto;
+  margin-left: -10px;
+  margin-top: 1em;
+  overflow-y: auto;
+  width: 100%;
+  z-index:9000;
+}
+
+
+.Button {
+  margin-left: 5px;
+  background: $brand-01;
+  border-radius: 5px;
+  justify-content: center;
+  background: none;
+  margin-top: 1px;
+  border: 2px solid $brand-01;
+  color: $brand-01;
+  width: 20px;
+  :last-child {
+    width: 1000%;
+    height: 100%;
+  }
+}
+
+.ButtonAdd:hover,.Button:hover {
+  background-color: $brand-01;
+  color: $ui-03;
+}
+.ButtonAdd{
+  margin-top: 3%;
+  background-color: $brand-02;
+padding: 1%;
+}
