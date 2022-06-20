@@ -15,7 +15,6 @@ const SearchPatient: React.FC = () => {
   async function onHandleChangeSearch(e) {
     if (e.currentTarget.value.trim().length !== 0) {
       getPatient(e.currentTarget.value).then((patients) => {
-        console.log("Patients", patients);
         setPatient(patients);
         setPatientNotFound(patients === undefined);
       });
