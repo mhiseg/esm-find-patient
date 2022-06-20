@@ -10,7 +10,7 @@ const SearchPatient: React.FC = () => {
   const [patients, setPatient] = useState([]);
   const [patientNotFound, setPatientNotFound] = useState(undefined);
   const { t } = useTranslation();
-  const to: NavigateOptions = { to: window.spaBase + "/death/add-patient" };
+  const to: NavigateOptions = { to: window.spaBase + "/death/patient" };
 
   async function onHandleChangeSearch(e) {
     if (e.currentTarget.value.trim().length !== 0) {
