@@ -1,21 +1,30 @@
 import React from "react";
 import { Button, Column, Grid, Row, Tile } from "carbon-components-react";
 import { Icon } from "@iconify/react";
-import styles from "./patient-card.scss"
+import styles from "./patient-card.scss";
 import PatientCardCell from "./patient-cardCell";
 import RelationShipCard from "../relationShipCard/relationShiphCard";
 import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
 
 const PatientCard = ({ Patient }) => {
-  const declare: NavigateOptions = { to: window.spaBase + "/death/patient?uid=" + Patient.No_dossier };
-  const valided: NavigateOptions = { to: window.spaBase + "/death/patient/validation?uid=" + Patient.No_dossier };
+  const declare: NavigateOptions = {
+    to: window.spaBase + "/death/patient/" + Patient.id,
+  };
+  const valided: NavigateOptions = {
+    to: window.spaBase + "/death/patient/validation/" + Patient.id,
+  };
   const { t } = useTranslation();
   function onClickChangePatientCard(e) {
     navigate(declare);
   }
+
   return (
-    <Tile onClick={onClickChangePatientCard} className={styles.cardBox} light={true}>
+    <Tile
+      onClick={onClickChangePatientCard}
+      className={styles.cardBox}
+      light={true}
+    >
       <Grid className={styles.pm0} fullWidth={true}>
         <Row className={styles.pm0}>
           {/* Partie reserve pour mettre la photo */}
@@ -99,12 +108,16 @@ const PatientCard = ({ Patient }) => {
                   <PatientCardCell icon="ep:place" label={Patient.birthplace} />
                   <PatientCardCell
                     icon="akar-icons:link-chain"
-                    label={(Patient.relationship[0] != '' && Patient.relationship[0] != null) ?
-                      <RelationShipCard
-                        relationshipName={Patient.relationship[0]}
-                        relationshipType={Patient.relationship[1]}
-                        relationshipPhone={Patient.relationship[2]} />
-                      : null}
+                    label={
+                      Patient.relationship[0] != "" &&
+                      Patient.relationship[0] != null ? (
+                        <RelationShipCard
+                          relationshipName={Patient.relationship[0]}
+                          relationshipType={Patient.relationship[1]}
+                          relationshipPhone={Patient.relationship[2]}
+                        />
+                      ) : null
+                    }
                   />
                 </Column>
 
@@ -120,10 +133,8 @@ const PatientCard = ({ Patient }) => {
                     />
                     <Column>
                       {Patient.death ? (
-                        <Button
-                          size="sm"
-                          className={styles.cardButton}>
-                          {t('validedDeath', 'Valider')}
+                        <Button size="sm" className={styles.cardButton}>
+                          {t("validedDeath", "Valider")}
                           <Icon
                             icon="flat-color-icons:ok"
                             className={styles.cardButtonIcon}
@@ -132,10 +143,14 @@ const PatientCard = ({ Patient }) => {
                       ) : (
                         <Button
                           size="sm"
-                          onClick={(e) => { navigate(valided); e.stopPropagation(); }}
+                          onClick={(e) => {
+                            navigate(valided);
+                            e.stopPropagation();
+                          }}
                           id={styles.buttonDeclare}
-                          className={styles.cardButton}>
-                          {t('declareDeath', 'Declarer mort')}
+                          className={styles.cardButton}
+                        >
+                          {t("declareDeath", "Declarer mort")}
                           <Icon
                             icon="healthicons:chart-death-rate-increasing"
                             className={styles.cardButtonIcon}
