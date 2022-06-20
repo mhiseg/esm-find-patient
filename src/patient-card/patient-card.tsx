@@ -8,23 +8,19 @@ import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
 
 const PatientCard = ({ Patient }) => {
-  const declare: NavigateOptions = {
+  const { t } = useTranslation();
+  const toDeclare: NavigateOptions = {
+    to: window.spaBase + "/death/declare/patient/" + Patient.id,
+  };
+  const toEditPatient: NavigateOptions = {
     to: window.spaBase + "/death/patient/" + Patient.id,
   };
-  const valided: NavigateOptions = {
-    to: window.spaBase + "/death/patient/validation/" + Patient.id,
-  };
-  const { t } = useTranslation();
-  function onClickChangePatientCard(e) {
-    navigate(declare);
+  function editPatient(e) {
+    navigate(toEditPatient);
   }
 
   return (
-    <Tile
-      onClick={onClickChangePatientCard}
-      className={styles.cardBox}
-      light={true}
-    >
+    <Tile onClick={editPatient} className={styles.cardBox} light={true}>
       <Grid className={styles.pm0} fullWidth={true}>
         <Row className={styles.pm0}>
           {/* Partie reserve pour mettre la photo */}
@@ -132,7 +128,7 @@ const PatientCard = ({ Patient }) => {
                       }
                     />
                     <Column>
-                      {Patient.death ? (
+                      {Patient.dead ? (
                         <Button size="sm" className={styles.cardButton}>
                           {t("validedDeath", "Valider")}
                           <Icon
@@ -144,7 +140,7 @@ const PatientCard = ({ Patient }) => {
                         <Button
                           size="sm"
                           onClick={(e) => {
-                            navigate(valided);
+                            navigate(toDeclare);
                             e.stopPropagation();
                           }}
                           id={styles.buttonDeclare}

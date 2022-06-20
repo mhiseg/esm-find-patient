@@ -41,6 +41,8 @@ export async function getPatient(query) {
   const formatPatient = (patient, relationship) => {
     const identities = formatAttribute(patient.identifiers);
     const personAttributes = formatAttribute(patient.person?.attributes);
+
+    console.log(patient.person.dead,'===================== li mouri ou pa')
     return {
       id: patient.uuid,
       identify: identities.find(
@@ -61,7 +63,7 @@ export async function getPatient(query) {
       birthplace: personAttributes.find(
         (attribute) => attribute.type == "Birthplace"
       )?.value,
-      death: patient.person.death,
+      death: patient.person.dead,
       occupation: "",
       matrimonial: "",
       deathDate: "",
