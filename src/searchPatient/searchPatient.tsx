@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./searchPatient.scss";
 import { SearchInput } from "../toobar_search_container/toolbar_search_container";
 import PatientCard from "../patient-card/patient-card";
@@ -8,14 +8,9 @@ import { useTranslation } from "react-i18next";
 import { PatientCardNotFound } from "../patient-card/patient-card-not-found";
 const SearchPatient: React.FC = () => {
   const [patients, setPatient] = useState([]);
-  const [listPatient, setListPatient] = useState([]);
   const [patientNotFound, setPatientNotFound] = useState(undefined);
   const { t } = useTranslation();
   const to: NavigateOptions = { to: window.spaBase + "/death/add-patient" };
-
-  // useEffect(() => {
-  //   setPatient(listPatient);
-  // }, [listPatient]);
 
   async function onHandleChangeSearch(e) {
     if (e.currentTarget.value.trim().length !== 0) {

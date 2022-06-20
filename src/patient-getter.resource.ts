@@ -1,7 +1,7 @@
 import { openmrsFetch, fhir, NavigateOptions } from "@openmrs/esm-framework";
 
 export const to: NavigateOptions = {
-  to: window.spaBase + "/death/add-patient",
+  to: window.spaBase + "/death/patient",
 };
 
 export async function getPatient(query) {
