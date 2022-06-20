@@ -12,6 +12,7 @@
   "patientsFound_plural": "",
   "searchForPatient": "Search for a patient by name or identifier number",
   "trySearchWithPatientUniqueID": "Try searching with the patient's unique ID number",
-  "New patient":"New patient"
+  "New patient":"New patient",
+  "declareDeath":"Declare dead"
 
 }

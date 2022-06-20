@@ -65,7 +65,11 @@ export async function getPatient(query) {
       occupation: "",
       matrimonial: "",
       deathDate: "",
-      relationship: relationship?.results[0].display,
+      relationship: [
+        relationship?.results?.[0]?.personA?.display,
+        relationship?.results?.[0]?.relationshipType?.aIsToB,
+        relationship?.results?.[0]?.personA?.attributes?.[0]?.display?.split("=")?.[1]
+      ],
     };
   };
   const displayResidence = (addresses) => {

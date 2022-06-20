@@ -4,9 +4,7 @@ import Add from "@carbon/icons-react/es/add/32";
 import SearchIcon from "@carbon/icons-react/es/search/16";
 import { Button, Tile } from "carbon-components-react";
 import { Icon } from "@iconify/react";
-import EmptyDataIllustration from "./empty-data-illustration.component";
 import { useTranslation } from "react-i18next";
-import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 
 export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
   const [isActiveSearchIcon, setActiveSearchIcon] = useState(false);

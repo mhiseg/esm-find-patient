@@ -1,23 +1,19 @@
 import React from "react";
-import { Column } from "carbon-components-react";
+import { Column, Row } from "carbon-components-react";
 import styles from "./patient-card.scss";
 import { Icon } from "@iconify/react";
 
 export default function PatientCardCell({ icon, label }) {
-  return (
-    <>
-      <Column>
-        <p>
-          {label != "" && label != undefined ? (
-            <>
-              <Icon icon={icon} className={styles.icon} />
-              {label}
-            </>
-          ) : (
-            ""
-          )}
-        </p>
-      </Column>
-    </>
-  );
+  return <>
+    {
+      (label !== "" && label !== undefined && label != null) && <>
+        <Column>
+          <span>
+            <Icon icon={icon} className={styles.icon} />
+            <span>{label}</span>
+          </span>
+        </Column>
+      </>
+    }
+  </>
 }
