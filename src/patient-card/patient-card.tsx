@@ -21,7 +21,6 @@ const PatientCard = ({ patient }) => {
   const editPatient = (e) => {
     navigate(toEditPatient);
   };
-
   return (
     <Tile onClick={editPatient} className={styles.cardBox} light={true}>
       <Grid className={styles.pm0} fullWidth={true}>
@@ -131,7 +130,7 @@ const PatientCard = ({ patient }) => {
                       }
                     />
                     <Column>
-                      {patient.dead ? (
+                      {patient.dead && !patient.isValided && (
                         <Button
                           size="sm"
                           className={styles.cardButton}
@@ -146,7 +145,8 @@ const PatientCard = ({ patient }) => {
                             className={styles.cardButtonIcon}
                           />
                         </Button>
-                      ) : (
+                      )}
+                      {!patient.dead && (
                         <Button
                           size="sm"
                           onClick={(e) => {
@@ -156,7 +156,25 @@ const PatientCard = ({ patient }) => {
                           id={styles.buttonDeclare}
                           className={styles.cardButton}
                         >
-                          {t("declareDeath", "Declarer mort")}
+                          {t("declareDeath", "declareDeath")}
+                          <Icon
+                            icon="healthicons:chart-death-rate-increasing"
+                            className={styles.cardButtonIcon}
+                          />
+                        </Button>
+                      )}
+                      {patient.dead && patient.isValided && (
+                        <Button
+                          size="sm"
+                          onClick={(e) => {
+                            // navigate(toDeclare);
+                            alert('Printed')
+                            e.stopPropagation();
+                          }}
+                          id={styles.buttonDeclare}
+                          className={styles.cardButton}
+                        >
+                          {t("print", "Print")}
                           <Icon
                             icon="healthicons:chart-death-rate-increasing"
                             className={styles.cardButtonIcon}

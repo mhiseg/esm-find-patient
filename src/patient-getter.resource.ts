@@ -65,10 +65,17 @@ export async function getPatient(query) {
       occupation: "",
       matrimonial: "",
       deathDate: "",
+      isValided: Boolean(
+        personAttributes.find(
+          (attribute) => attribute.type == "Death Validated"
+        )?.value
+      ),
       relationship: [
         relationship?.results?.[0]?.personA?.display,
         relationship?.results?.[0]?.relationshipType?.aIsToB,
-        relationship?.results?.[0]?.personA?.attributes?.[0]?.display?.split("=")?.[1]
+        relationship?.results?.[0]?.personA?.attributes?.[0]?.display?.split(
+          "="
+        )?.[1],
       ],
     };
   };
