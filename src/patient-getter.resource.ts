@@ -61,7 +61,7 @@ export async function getPatient(query) {
       birthplace: personAttributes.find(
         (attribute) => attribute.type == "Birthplace"
       )?.value,
-      death: patient.person.dead,
+      dead: patient.person.dead,
       occupation: "",
       matrimonial: "",
       deathDate: "",

@@ -7,17 +7,20 @@ import RelationShipCard from "../relationShipCard/relationShiphCard";
 import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
 
-const PatientCard = ({ Patient }) => {
+const PatientCard = ({ patient }) => {
   const { t } = useTranslation();
   const toDeclare: NavigateOptions = {
-    to: window.spaBase + "/death/declare/patient/" + Patient.id,
+    to: window.spaBase + "/death/declare/patient/" + patient.id,
+  };
+  const toValidate: NavigateOptions = {
+    to: window.spaBase + "/death/validate/patient/" + patient.id,
   };
   const toEditPatient: NavigateOptions = {
-    to: window.spaBase + "/death/patient/" + Patient.id,
+    to: window.spaBase + "/death/patient/" + patient.id,
   };
-  function editPatient(e) {
+  const editPatient = (e) => {
     navigate(toEditPatient);
-  }
+  };
 
   return (
     <Tile onClick={editPatient} className={styles.cardBox} light={true}>
@@ -27,8 +30,8 @@ const PatientCard = ({ Patient }) => {
           <Column className={styles.patientPhoto} lg={1}>
             <p className={styles.alias}>
               {(
-                Patient.firstName?.split("")[0] +
-                Patient.lastName[0]?.split("")[0]
+                patient.firstName?.split("")[0] +
+                patient.lastName[0]?.split("")[0]
               ).toUpperCase()}
             </p>
           </Column>
@@ -39,25 +42,25 @@ const PatientCard = ({ Patient }) => {
                 <Row className={styles.borderBottom}>
                   <Column className={styles.pm0} lg={6}>
                     <h1 className={styles.name}>
-                      {Patient.gender == "F" ? (
+                      {patient.gender == "F" ? (
                         <Icon
                           icon="emojione-monotone:woman"
                           className={styles.iconHead}
                         />
                       ) : null}
-                      {Patient.gender == "M" ? (
+                      {patient.gender == "M" ? (
                         <Icon
                           icon="emojione-monotone:man"
                           className={styles.iconHead}
                         />
                       ) : null}
-                      {Patient.firstName} <span>{Patient.lastName}</span>
+                      {patient.firstName} <span>{patient.lastName}</span>
                     </h1>
                   </Column>
                   <Column className={styles.pm0} lg={6}>
                     <h3 className={`${styles.align} ${styles.pm0}`}>
                       <Icon icon="bxs:folder" className={styles.iconHead} />
-                      {Patient.No_dossier}
+                      {patient.No_dossier}
                     </h3>
                   </Column>
                 </Row>
@@ -66,51 +69,51 @@ const PatientCard = ({ Patient }) => {
                 <Column lg={4}>
                   <PatientCardCell
                     icon="clarity:calendar-solid"
-                    label={Patient.birth}
+                    label={patient.birth}
                   />
 
                   <PatientCardCell
                     icon="entypo:location-pin"
-                    label={Patient.residence}
+                    label={patient.residence}
                   />
                   <PatientCardCell
                     icon="bxs:building"
-                    label={Patient.habitat}
+                    label={patient.habitat}
                   />
                 </Column>
 
                 <Column lg={3}>
                   <PatientCardCell
                     icon="ant-design:field-number-outlined"
-                    label={Patient.identify}
+                    label={patient.identify}
                   />
 
                   <PatientCardCell
                     icon="carbon:user-multiple"
-                    label={Patient.matrimonial}
+                    label={patient.matrimonial}
                   />
 
                   <PatientCardCell
                     icon="ic:outline-work"
-                    label={Patient.occupation}
+                    label={patient.occupation}
                   />
                 </Column>
 
                 <Column lg={3}>
                   <PatientCardCell
                     icon="bxs:phone-call"
-                    label={Patient.phoneNumber}
+                    label={patient.phoneNumber}
                   />
-                  <PatientCardCell icon="ep:place" label={Patient.birthplace} />
+                  <PatientCardCell icon="ep:place" label={patient.birthplace} />
                   <PatientCardCell
                     icon="akar-icons:link-chain"
                     label={
-                      Patient.relationship[0] != "" &&
-                      Patient.relationship[0] != null ? (
+                      patient.relationship[0] != "" &&
+                        patient.relationship[0] != null ? (
                         <RelationShipCard
-                          relationshipName={Patient.relationship[0]}
-                          relationshipType={Patient.relationship[1]}
-                          relationshipPhone={Patient.relationship[2]}
+                          relationshipName={patient.relationship[0]}
+                          relationshipType={patient.relationship[1]}
+                          relationshipPhone={patient.relationship[2]}
                         />
                       ) : null
                     }
@@ -122,14 +125,21 @@ const PatientCard = ({ Patient }) => {
                     <Icon
                       icon="fluent:heart-pulse-20-filled"
                       className={
-                        !Patient.death
+                        !patient.dea
                           ? `${styles.heartStyle} ${styles.heartRed}`
                           : `${styles.heartStyle} ${styles.heartGray}`
                       }
                     />
                     <Column>
-                      {Patient.dead ? (
-                        <Button size="sm" className={styles.cardButton}>
+                      {patient.dead ? (
+                        <Button
+                          size="sm"
+                          className={styles.cardButton}
+                          onClick={(e) => {
+                            navigate(toValidate);
+                            e.stopPropagation();
+                          }}
+                        >
                           {t("validedDeath", "Valider")}
                           <Icon
                             icon="flat-color-icons:ok"
