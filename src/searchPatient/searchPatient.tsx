@@ -36,7 +36,7 @@ const SearchPatient: React.FC = () => {
           >
             {patients.length > 0
               ? patients.map((cadre) => {
-                  return <PatientCard key={cadre.id} Patient={cadre} />;
+                  return <PatientCard key={cadre.id} patient={cadre} />
                 })
               : null}
           </SearchInput>

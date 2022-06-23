@@ -126,7 +126,6 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
                   navigate(to);
                 }}
               >
-                {" "}
                 {t("New patient")}
               </Button>
             </Tile>

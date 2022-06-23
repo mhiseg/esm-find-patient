@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, wait, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import {SearchInput} from './toolbar_search_container';
 

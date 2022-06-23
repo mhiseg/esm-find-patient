@@ -1,5 +1,4 @@
-import { openmrsFetch, fhir } from "@openmrs/esm-framework";
-import { random } from "lodash-es";
+import { openmrsFetch } from "@openmrs/esm-framework";
 
 /**
  * This is a somewhat silly resource function. It searches for a patient
@@ -16,8 +15,9 @@ import { random } from "lodash-es";
  * @param query A patient name or ID
  * @returns The first matching patient
  */
+
 export async function getPatient(query) {
-  let patients = [];
+  let patients;
   const searchResult = await openmrsFetch(
     `/ws/rest/v1/patient?q=${query}&v=full`,
     {
@@ -28,63 +28,78 @@ export async function getPatient(query) {
   function checkUndefined(value) {
     return value !== null && value !== undefined ? value : "";
   }
+  
   if (searchResult) {
-    searchResult?.data?.results.forEach(function (item, i) {
-      console.log(item);
-      patients.push({
-        id: i,
+    patients = Promise.all(
+      searchResult?.data?.results.map(async function (item, i) {
+        const relationships = await openmrsFetch(
+          `/ws/rest/v1/relationship?v=full&person=${item.uuid}`,
+          {
+            method: "GET",
+          }
+        );
+        return {
+          id: item.uuid,
 
-        identify: item?.identifiers?.map((element) => {
-          return element?.identifierType?.display === ("CIN" || "NIF")
-            ? checkUndefined(element?.identifier)
-            : null;
-        }),
-        No_dossier: checkUndefined(item?.identifiers[0]?.identifier),
+          identify: item?.identifiers?.map((element) => {
+            return element?.identifierType?.display === ("CIN" || "NIF")
+              ? checkUndefined(element?.identifier)
+              : null;
+          }),
+          No_dossier: checkUndefined(item?.identifiers[0]?.identifier),
 
-        firstName: checkUndefined(item?.person?.names?.[0]?.familyName),
+          firstName: checkUndefined(item?.person?.names?.[0]?.familyName),
 
-        lastName: checkUndefined(
-          item?.person?.names?.[0]?.givenName +
+          lastName: checkUndefined(
+            item?.person?.names?.[0]?.givenName +
             " " +
             checkUndefined(item?.person?.names?.[0]?.middleName)
-        ),
+          ),
 
-        birth: checkUndefined(item?.person?.birthdate.split("T")?.[0]),
+          birth: checkUndefined(item?.person?.birthdate.split("T")?.[0]),
 
-        residence:
-          checkUndefined(item?.person?.addresses?.[0]?.country) +
-          ", " +
-          checkUndefined(item?.person?.addresses?.[0]?.cityVillage) +
-          ", " +
-          checkUndefined(item?.person?.addresses?.[0]?.display),
+          residence:
+            checkUndefined(item?.person?.addresses?.[0]?.country) +
+            ", " +
+            checkUndefined(item?.person?.addresses?.[0]?.cityVillage) +
+            ", " +
+            checkUndefined(item?.person?.addresses?.[0]?.display),
 
-        birthPlace: "",
+          birthPlace: "",
 
-        habitat: "",
+          habitat: "",
 
-        phoneNumber: item?.person?.attributes?.map((element) => {
-          return element?.attributeType?.display === "Telephone Number"
-            ? checkUndefined(element?.value)
-            : null;
-        }),
+          phoneNumber: item?.person?.attributes?.map((element) => {
+            return element?.attributeType?.display === "Telephone Number"
+              ? checkUndefined(element?.value)
+              : null;
+          }),
 
-        gender: checkUndefined(item?.person?.gender),
+          gender: checkUndefined(item?.person?.gender),
 
-        birthplace: item?.person?.attributes?.map((element) => {
-          return element?.attributeType?.display === "Birthplace"
-            ? checkUndefined(element?.value)
-            : null;
-        }),
+          birthplace: item?.person?.attributes?.map((element) => {
+            return element?.attributeType?.display === "Birthplace"
+              ? checkUndefined(element?.value)
+              : null;
+          }),
 
-        death: item.person.death,
+          death: item.person.death,
 
-        occupation: "",
+          occupation: "",
 
-        matrimonial: "",
+          matrimonial: "",
 
-        deathDate: "",
-      });
-    });
+          deathDate: "",
+          relationship: [
+            relationships?.data?.results?.[0]?.personA?.display,
+            relationships?.data?.results?.[0]?.relationshipType?.aIsToB,
+            relationships?.data?.results?.[0]?.personA?.attributes?.[0]?.display?.split(
+              "="
+            )?.[1],
+          ]
+        }
+      })
+    );
   }
   return patients;
 }
