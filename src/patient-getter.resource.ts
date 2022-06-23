@@ -1,4 +1,5 @@
 import { openmrsFetch } from "@openmrs/esm-framework";
+import { encounterTypeCheckIn } from "./constant";
 
 /**
  * This is a somewhat silly resource function. It searches for a patient
@@ -15,6 +16,26 @@ import { openmrsFetch } from "@openmrs/esm-framework";
  * @param query A patient name or ID
  * @returns The first matching patient
  */
+const BASE_WS_API_URL = '/ws/rest/v1/';
+
+export async function fetchObsByPatientAndEncounterType(patientUuid: string, encounterType: string) {
+  if (patientUuid && encounterType) {
+    let observations = [];
+    const encounter = await openmrsFetch(`${BASE_WS_API_URL}encounter?patient=${patientUuid}&encounterType=${encounterType}&v=default`, { method: 'GET' });
+    let concepts = encounter.data.results[(encounter.data.results?.length) - 1]?.obs;
+    if (concepts) {
+      await Promise.all(concepts.map(async concept => {
+        const obs = await getObs(concept.links[0]?.uri)
+        observations.push({ concept: obs?.data?.concept, answer: obs?.data?.value })
+      }))
+    }
+    return observations;
+  }
+  return Promise.resolve(null);
+}
+export function getObs(path: string) {
+  return openmrsFetch(`${BASE_WS_API_URL + path.split(BASE_WS_API_URL)[1]}`, { method: 'GET' });
+}
 
 export async function getPatient(query) {
   let patients;
@@ -28,7 +49,14 @@ export async function getPatient(query) {
   function checkUndefined(value) {
     return value !== null && value !== undefined ? value : "";
   }
-  
+  const formatAttribute = (item) =>
+    item?.map((identifier) => {
+      return {
+        type: identifier.display.split(" = ")[0].trim(),
+        value: identifier.display.split(" = ")[1].trim(),
+      };
+    });
+
   if (searchResult) {
     patients = Promise.all(
       searchResult?.data?.results.map(async function (item, i) {
@@ -38,6 +66,9 @@ export async function getPatient(query) {
             method: "GET",
           }
         );
+        let attributs = formatAttribute(relationships?.data?.results?.[0]?.personA?.attributes);
+        let concept = await fetchObsByPatientAndEncounterType(item.uuid, encounterTypeCheckIn);
+        console.log(concept[0].answer)
         return {
           id: item.uuid,
 
@@ -93,9 +124,9 @@ export async function getPatient(query) {
           relationship: [
             relationships?.data?.results?.[0]?.personA?.display,
             relationships?.data?.results?.[0]?.relationshipType?.aIsToB,
-            relationships?.data?.results?.[0]?.personA?.attributes?.[0]?.display?.split(
-              "="
-            )?.[1],
+            attributs?.map(attribut => {
+              return (attribut.type == "Telephone Number") ? attribut.value : ""
+            })
           ]
         }
       })
