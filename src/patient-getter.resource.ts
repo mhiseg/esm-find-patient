@@ -1,5 +1,6 @@
 import { openmrsFetch } from "@openmrs/esm-framework";
-import { encounterTypeCheckIn } from "./constant";
+import { encounterTypeCheckIn, habitatConcept, maritalStatusConcept, occupationConcept } from "./constant";
+import { empty } from 'rxjs';
 
 /**
  * This is a somewhat silly resource function. It searches for a patient
@@ -57,6 +58,11 @@ export async function getPatient(query) {
       };
     });
 
+  const formatConcept = (concepts, uuid) =>
+    concepts?.map((concept) => {
+      return concept?.concept?.uuid == uuid ?  concept?.answer?.display  : null
+    });
+
   if (searchResult) {
     patients = Promise.all(
       searchResult?.data?.results.map(async function (item, i) {
@@ -66,9 +72,8 @@ export async function getPatient(query) {
             method: "GET",
           }
         );
+        const Allconcept = await fetchObsByPatientAndEncounterType(item.uuid, encounterTypeCheckIn)
         let attributs = formatAttribute(relationships?.data?.results?.[0]?.personA?.attributes);
-        let concept = await fetchObsByPatientAndEncounterType(item.uuid, encounterTypeCheckIn);
-        console.log(concept[0].answer)
         return {
           id: item.uuid,
 
@@ -98,7 +103,7 @@ export async function getPatient(query) {
 
           birthPlace: "",
 
-          habitat: "",
+          habitat: formatConcept(Allconcept, habitatConcept),
 
           phoneNumber: item?.person?.attributes?.map((element) => {
             return element?.attributeType?.display === "Telephone Number"
@@ -116,9 +121,9 @@ export async function getPatient(query) {
 
           death: item.person.death,
 
-          occupation: "",
+          occupation: formatConcept(Allconcept, occupationConcept),
 
-          matrimonial: "",
+          matrimonial: formatConcept(Allconcept, maritalStatusConcept),
 
           deathDate: "",
           relationship: [
