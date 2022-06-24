@@ -31,9 +31,9 @@ function setupOpenMRS() {
           options
         ),
         route: "death/search",
+        privilege: "App: death.management",
       },
     ],
-    extensions: [{}],
   };
 }
 
