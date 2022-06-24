@@ -35,7 +35,7 @@ export async function fetchObsByPatientAndEncounterType(patientUuid: string, enc
   return Promise.resolve(null);
 }
 export function getObs(path: string) {
-  return openmrsFetch(`${BASE_WS_API_URL + path.split(BASE_WS_API_URL)[1]}`, { method: 'GET' });
+  return openmrsFetch(`${BASE_WS_API_URL + path.split(BASE_WS_API_URL)[1]}?lang=${localStorage.i18nextLng}`, { method: 'GET' });
 }
 
 export async function getPatient(query) {
@@ -48,7 +48,7 @@ export async function getPatient(query) {
   );
 
   function checkUndefined(value) {
-    return value !== null && value !== undefined ? value : "";
+    return (value !== null && value !== undefined) ? value : "";
   }
   const formatAttribute = (item) =>
     item?.map((identifier) => {
@@ -58,10 +58,13 @@ export async function getPatient(query) {
       };
     });
 
-  const formatConcept = (concepts, uuid) =>
+  const formatConcept = (concepts, uuid) => {
+    let value = "";
     concepts?.map((concept) => {
-      return concept?.concept?.uuid == uuid ?  concept?.answer?.display  : null
-    });
+      value = (concept?.concept?.uuid == uuid) ? concept?.answer?.display : ""
+    })
+    return value;
+  }
 
   if (searchResult) {
     patients = Promise.all(
@@ -73,15 +76,14 @@ export async function getPatient(query) {
           }
         );
         const Allconcept = await fetchObsByPatientAndEncounterType(item.uuid, encounterTypeCheckIn)
-        let attributs = formatAttribute(relationships?.data?.results?.[0]?.personA?.attributes);
+        const attributs = formatAttribute(relationships?.data?.results?.[0]?.personA?.attributes);
         return {
-          id: item.uuid,
+          id: item?.uuid,
 
-          identify: item?.identifiers?.map((element) => {
+          identify: checkUndefined(item?.identifiers?.map((element) => {
             return element?.identifierType?.display === ("CIN" || "NIF")
-              ? checkUndefined(element?.identifier)
-              : null;
-          }),
+              ? element?.identifier : "";
+          }).toString()),
           No_dossier: checkUndefined(item?.identifiers[0]?.identifier),
 
           firstName: checkUndefined(item?.person?.names?.[0]?.familyName),
@@ -95,37 +97,40 @@ export async function getPatient(query) {
           birth: checkUndefined(item?.person?.birthdate.split("T")?.[0]),
 
           residence:
-            checkUndefined(item?.person?.addresses?.[0]?.country) +
-            ", " +
-            checkUndefined(item?.person?.addresses?.[0]?.cityVillage) +
-            ", " +
+            checkUndefined(item?.person?.addresses?.[0]?.country) &&
+            ", " &&
+            checkUndefined(item?.person?.addresses?.[0]?.cityVillage) &&
+            ", " &&
             checkUndefined(item?.person?.addresses?.[0]?.display),
-
-          birthPlace: "",
 
           habitat: formatConcept(Allconcept, habitatConcept),
 
-          phoneNumber: item?.person?.attributes?.map((element) => {
-            return element?.attributeType?.display === "Telephone Number"
-              ? checkUndefined(element?.value)
-              : null;
-          }),
+          phoneNumber: checkUndefined(item?.person?.attributes?.map((element) => {
+            return (element?.attributeType?.display === "Telephone Number")
+              ? element?.value
+              : ""
+          }).toString()),
 
           gender: checkUndefined(item?.person?.gender),
 
-          birthplace: item?.person?.attributes?.map((element) => {
-            return element?.attributeType?.display === "Birthplace"
-              ? checkUndefined(element?.value)
-              : null;
-          }),
+          birthplace: checkUndefined(item?.person?.attributes?.map((element) => {
+            return (element?.attributeType?.display === "Birthplace")
+              ? element?.value
+              : "";
+          }).toString()),
 
-          death: item.person.death,
+          death: checkUndefined(item.person.death),
 
           occupation: formatConcept(Allconcept, occupationConcept),
 
           matrimonial: formatConcept(Allconcept, maritalStatusConcept),
 
           deathDate: "",
+          valided: checkUndefined(item?.person?.attributes?.map((element) => {
+            return (element?.attributeType?.display === "valided")
+              ? element?.value
+              : "";
+          }).toString()),
           relationship: [
             relationships?.data?.results?.[0]?.personA?.display,
             relationships?.data?.results?.[0]?.relationshipType?.aIsToB,

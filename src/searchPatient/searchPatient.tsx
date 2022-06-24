@@ -5,7 +5,6 @@ import PatientCard from "../patient-card/patient-card";
 import { getPatient } from "../patient-getter.resource";
 import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
-import { PatientCardNotFound } from "../patient-card/patient-card-not-found";
 const SearchPatient: React.FC = () => {
   const [patients, setPatient] = useState([]);
   const [patientNotFound, setPatientNotFound] = useState(undefined);
@@ -35,22 +34,11 @@ const SearchPatient: React.FC = () => {
               navigate(to);
             }}
           >
-<<<<<<< HEAD
             {patients.length > 0
               ? patients.map((cadre) => {
                   return <PatientCard key={cadre.id} patient={cadre} />
                 })
               : null}
-=======
-            {
-              patients?.length > 0 &&
-              patientNotFound === false &&
-              patients.map((cadre) => {
-                return <PatientCard key={cadre.id} patient={cadre} />;
-              })
-            }
-            {patientNotFound === true ? <PatientCardNotFound /> : ""}
->>>>>>> 912c678f78fe3802c0f6a6ffbec0f645594b8d8b
           </SearchInput>
         </div>
       </div>
@@ -59,3 +47,4 @@ const SearchPatient: React.FC = () => {
 };
 
 export default SearchPatient;
+ 

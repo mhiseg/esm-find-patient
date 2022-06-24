@@ -7,8 +7,8 @@ export default function PatientCardCell({ icon, label }) {
   return <>
     {
       (label !== "" && label !== undefined && label != null) && <>
-        <Column>
-          <span>
+        <Column className={styles.labelColumn}>
+          <span >
             <Icon icon={icon} className={styles.icon} />
             <span>{label}</span>
           </span>

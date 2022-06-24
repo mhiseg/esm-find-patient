@@ -10,6 +10,7 @@ export interface Patient {
   phoneNumber: String;
   gender: String;
   death: boolean;
+  Valided: boolean;
   matrimonial: String;
   occupation: String;
   birthplace: String;
