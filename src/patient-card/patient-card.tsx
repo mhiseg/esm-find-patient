@@ -6,6 +6,8 @@ import PatientCardCell from "./patient-cardCell";
 import RelationShipCard from "../relationShipCard/relationShiphCard";
 import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { getCurrenUserFunction } from "../patient-getter.resource";
 
 const PatientCard = ({ patient }) => {
   const { t } = useTranslation();
@@ -21,6 +23,12 @@ const PatientCard = ({ patient }) => {
   const editPatient = (e) => {
     navigate(toEditPatient);
   };
+  const [userFunction, setuserFunction] = useState(null);
+
+  useEffect(function () {
+    setuserFunction(getCurrenUserFunction()[0]);
+    console.log(patient)
+  },[])
   return (
     <Tile onClick={editPatient} className={styles.cardBox} light={true}>
       <Grid className={styles.pm0} fullWidth={true}>
@@ -118,19 +126,18 @@ const PatientCard = ({ patient }) => {
                     }
                   />
                 </Column>
-
+              
                 <Column lg={2} className={styles.pm0}>
                   <Column className={styles.borderLeft}>
                     <Icon
                       icon="fluent:heart-pulse-20-filled"
-                      className={
-                        !patient.dea
+                      className={ !patient.dead
                           ? `${styles.heartStyle} ${styles.heartRed}`
                           : `${styles.heartStyle} ${styles.heartGray}`
                       }
                     />
                     <Column>
-                      {patient.dead && !patient.isValided && (
+                      {patient.dead && !patient.isValided && (userFunction!=="nurse")&& (
                         <Button
                           size="sm"
                           className={styles.cardButton}
@@ -184,7 +191,7 @@ const PatientCard = ({ patient }) => {
                 </Column>
               </Row>
             </Grid>
-          </Column>sudo snap install mysql-workbench-community
+          </Column>
         </Row>
       </Grid>
     </Tile>

@@ -9,10 +9,22 @@ export interface Patient {
   habitat: String;
   phoneNumber: String;
   gender: String;
-  death: boolean;
-  Valided: boolean;
+  dead: boolean;
+  valided: boolean;
   matrimonial: String;
   occupation: String;
   birthplace: String;
   relationship: any;
+}
+
+export interface User {
+  display: string;
+  link: Array<string>;
+  person: any;
+  priviliges: any;
+  resourceVersion: any;
+  roles: Array<any>;
+  userProperties: any;
+  username: string;
+  uuid: string;
 }

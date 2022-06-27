@@ -1,7 +1,6 @@
-import { openmrsFetch } from "@openmrs/esm-framework";
+import { getCurrentUser, openmrsFetch, userHasAccess } from "@openmrs/esm-framework";
 import { encounterTypeCheckIn, habitatConcept, maritalStatusConcept, occupationConcept } from "./constant";
-import { empty } from 'rxjs';
-
+import { User } from './types'
 /**
  * This is a somewhat silly resource function. It searches for a patient
  * using the REST API, and then immediately gets the data using the FHIR
@@ -19,7 +18,17 @@ import { empty } from 'rxjs';
  */
 const BASE_WS_API_URL = '/ws/rest/v1/';
 
-export async function fetchObsByPatientAndEncounterType(patientUuid: string, encounterType: string) {
+export function getCurrenUserFunction() {
+  let currentUserFunction = [];
+  getCurrentUser().subscribe(
+    user => {
+      currentUserFunction[0] = user.systemId.split("-")?.[0];
+    })
+  console.log(currentUserFunction);
+  return currentUserFunction;
+}
+
+async function fetchObsByPatientAndEncounterType(patientUuid: string, encounterType: string) {
   if (patientUuid && encounterType) {
     let observations = [];
     const encounter = await openmrsFetch(`${BASE_WS_API_URL}encounter?patient=${patientUuid}&encounterType=${encounterType}&v=default`, { method: 'GET' });
@@ -119,7 +128,7 @@ export async function getPatient(query) {
               : "";
           }).toString()),
 
-          death: checkUndefined(item.person.death),
+          dead: checkUndefined(item.person.dead),
 
           occupation: formatConcept(Allconcept, occupationConcept),
 
