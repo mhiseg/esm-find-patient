@@ -16,6 +16,7 @@ import { User } from './types'
  * @param query A patient name or ID
  * @returns The first matching patient
  */
+
 const BASE_WS_API_URL = '/ws/rest/v1/';
 
 export function getCurrenUserFunction() {
@@ -24,7 +25,6 @@ export function getCurrenUserFunction() {
     user => {
       currentUserFunction[0] = user.systemId.split("-")?.[0];
     })
-  console.log(currentUserFunction);
   return currentUserFunction;
 }
 
@@ -43,14 +43,14 @@ async function fetchObsByPatientAndEncounterType(patientUuid: string, encounterT
   }
   return Promise.resolve(null);
 }
-export function getObs(path: string) {
+function getObs(path: string) {
   return openmrsFetch(`${BASE_WS_API_URL + path.split(BASE_WS_API_URL)[1]}?lang=${localStorage.i18nextLng}`, { method: 'GET' });
 }
 
 export async function getPatient(query) {
   let patients;
   const searchResult = await openmrsFetch(
-    `/ws/rest/v1/patient?q=${query}&v=full`,
+    `/ws/rest/v1/patient?v=full&q=${query}&includeDead=true`,
     {
       method: "GET",
     }
@@ -74,21 +74,34 @@ export async function getPatient(query) {
     })
     return value;
   }
+  const formatResidence = (country, village, address) => {
+    let residenceCountry = checkUndefined(country) !== "" ? country + ", " : "";
+    let residenceVillage = checkUndefined(village) !== "" ? village + ", " : "";
+    let residenceAddress = checkUndefined(address) !== "" ? address : "";
+    return residenceCountry + residenceVillage + residenceAddress;
+  }
 
   if (searchResult) {
+    console.log(searchResult)
     patients = Promise.all(
-      searchResult?.data?.results.map(async function (item, i) {
+      searchResult?.data.results?.map(async function (item, i) {
         const relationships = await openmrsFetch(
-          `/ws/rest/v1/relationship?v=full&person=${item.uuid}`,
+          `/ws/rest/v1/relationship?v=full&person=${item?.uuid}`,
           {
             method: "GET",
           }
         );
         const Allconcept = await fetchObsByPatientAndEncounterType(item.uuid, encounterTypeCheckIn)
         const attributs = formatAttribute(relationships?.data?.results?.[0]?.personA?.attributes);
+        console.log(
+          relationships?.data?.results?.[0]?.personA?.display,
+          relationships?.data?.results?.[0]?.relationshipType?.aIsToB,
+          attributs?.map(attribut => {
+            return (attribut.type == "Telephone Number") ? attribut.value : ""
+          })
+        )
         return {
           id: item?.uuid,
-
           identify: checkUndefined(item?.identifiers?.map((element) => {
             return element?.identifierType?.display === ("CIN" || "NIF")
               ? element?.identifier : "";
@@ -106,11 +119,11 @@ export async function getPatient(query) {
           birth: checkUndefined(item?.person?.birthdate.split("T")?.[0]),
 
           residence:
-            checkUndefined(item?.person?.addresses?.[0]?.country) &&
-            ", " &&
-            checkUndefined(item?.person?.addresses?.[0]?.cityVillage) &&
-            ", " &&
-            checkUndefined(item?.person?.addresses?.[0]?.display),
+            formatResidence(
+              item?.person?.addresses?.[0]?.country,
+              item?.person?.addresses?.[0]?.cityVillage,
+              item?.person?.addresses?.[0]?.display
+            ),
 
           habitat: formatConcept(Allconcept, habitatConcept),
 
@@ -140,8 +153,9 @@ export async function getPatient(query) {
               ? element?.value
               : "";
           }).toString()),
+
           relationship: [
-            relationships?.data?.results?.[0]?.personA?.display,
+            relationships?.data?.results?.[0]?.personB?.display,
             relationships?.data?.results?.[0]?.relationshipType?.aIsToB,
             attributs?.map(attribut => {
               return (attribut.type == "Telephone Number") ? attribut.value : ""

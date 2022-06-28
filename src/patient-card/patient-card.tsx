@@ -27,8 +27,7 @@ const PatientCard = ({ patient }) => {
 
   useEffect(function () {
     setuserFunction(getCurrenUserFunction()[0]);
-    console.log(patient)
-  },[])
+  }, [])
   return (
     <Tile onClick={editPatient} className={styles.cardBox} light={true}>
       <Grid className={styles.pm0} fullWidth={true}>
@@ -126,33 +125,17 @@ const PatientCard = ({ patient }) => {
                     }
                   />
                 </Column>
-              
+
                 <Column lg={2} className={styles.pm0}>
                   <Column className={styles.borderLeft}>
                     <Icon
                       icon="fluent:heart-pulse-20-filled"
-                      className={ !patient.dead
-                          ? `${styles.heartStyle} ${styles.heartRed}`
-                          : `${styles.heartStyle} ${styles.heartGray}`
+                      className={!patient.dead
+                        ? `${styles.heartStyle} ${styles.heartRed}`
+                        : `${styles.heartStyle} ${styles.heartGray}`
                       }
                     />
                     <Column>
-                      {patient.dead && !patient.isValided && (userFunction!=="nurse")&& (
-                        <Button
-                          size="sm"
-                          className={styles.cardButton}
-                          onClick={(e) => {
-                            navigate(toValidate);
-                            e.stopPropagation();
-                          }}
-                        >
-                          {t("validedDeath", "Valider")}
-                          <Icon
-                            icon="flat-color-icons:ok"
-                            className={styles.cardButtonIcon}
-                          />
-                        </Button>
-                      )}
                       {!patient.dead && (
                         <Button
                           size="sm"
@@ -163,9 +146,26 @@ const PatientCard = ({ patient }) => {
                           id={styles.buttonDeclare}
                           className={styles.cardButton}
                         >
-                          {t("declareDeath", "declareDeath")}
+                          {t("declareDeath")}
                           <Icon
                             icon="healthicons:chart-death-rate-increasing"
+                            className={styles.cardButtonIcon}
+                          />
+                        </Button>
+                      )}
+                      
+                      {patient.dead && !patient.valided && (userFunction !== "nurse") && (
+                        <Button
+                          size="sm"
+                          className={styles.cardButton}
+                          onClick={(e) => {
+                            navigate(toValidate);
+                            e.stopPropagation();
+                          }}
+                        >
+                          {t("validedDeath")}
+                          <Icon
+                            icon="flat-color-icons:ok"
                             className={styles.cardButtonIcon}
                           />
                         </Button>
@@ -179,7 +179,7 @@ const PatientCard = ({ patient }) => {
                           id={styles.buttonDeclare}
                           className={styles.cardButton}
                         >
-                          {t("print", "Print")}
+                          {t("print")}
                           <Icon
                             icon="healthicons:chart-death-rate-increasing"
                             className={styles.cardButtonIcon}

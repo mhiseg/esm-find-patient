@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./toolbar_search_container.scss";
 import Add from "@carbon/icons-react/es/add/32";
-import SearchIcon from "@carbon/icons-react/es/search/16";
 import { Button, Tile } from "carbon-components-react";
 import { Icon } from "@iconify/react";
 import EmptyDataIllustration from "./empty-data-illustration.component";
@@ -55,7 +54,7 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
   return (
     <div>
       <i className={styles.SearchIcon}>
-        <SearchIcon
+        <Icon icon="carbon:search"
           id={styles.searchIcon}
           className={isActiveSearchIcon ? styles["SearchIconChild"] : ""}
           onClick={toggleClass}
