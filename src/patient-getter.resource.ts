@@ -23,7 +23,7 @@ export function getCurrenUserFunction() {
   let currentUserFunction = [];
   getCurrentUser().subscribe(
     user => {
-      currentUserFunction[0] = user.systemId.split("-")?.[0];
+      currentUserFunction['function'] = user.systemId.split("-")?.[0];
     })
   return currentUserFunction;
 }
@@ -107,7 +107,7 @@ export async function getPatient(query) {
         return {
           id: item?.uuid,
           identify: identities.find(
-            (identifier) => identifier.type == "CIN" || identifier.type == "CIN"
+            (identifier) => identifier.type == "CIN" || identifier.type == "NIF"
           )?.value,
           No_dossier: checkUndefined(item?.identifiers?.[0]?.identifier),
 
