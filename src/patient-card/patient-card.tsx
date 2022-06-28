@@ -8,9 +8,11 @@ import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { getCurrenUserFunction } from "../patient-getter.resource";
+import { mergeMap } from 'rxjs/operators';
 
 const PatientCard = ({ patient }) => {
   const { t } = useTranslation();
+  const [userFunction, setuserFunction] = useState(null);
   const toDeclare: NavigateOptions = {
     to: window.spaBase + "/death/declare/patient/" + patient.id,
   };
@@ -23,11 +25,11 @@ const PatientCard = ({ patient }) => {
   const editPatient = (e) => {
     navigate(toEditPatient);
   };
-  const [userFunction, setuserFunction] = useState(null);
 
-  useEffect(function () {
-    setuserFunction(getCurrenUserFunction()[0]);
-  }, [])
+  useEffect(() => {
+    setuserFunction(getCurrenUserFunction());
+  }, []);
+
   return (
     <Tile onClick={editPatient} className={styles.cardBox} light={true}>
       <Grid className={styles.pm0} fullWidth={true}>
@@ -153,8 +155,8 @@ const PatientCard = ({ patient }) => {
                           />
                         </Button>
                       )}
-                      
-                      {patient.dead && !patient.valided && (userFunction !== "nurse") && (
+
+                      {patient.dead && patient.valided === false && (userFunction !== "nurse") && (
                         <Button
                           size="sm"
                           className={styles.cardButton}

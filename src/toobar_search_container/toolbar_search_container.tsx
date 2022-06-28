@@ -40,10 +40,6 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
     }
   };
   useEffect(() => {
-    if (input.current.value.trim().length == 0) {
-      setActiveRemoveIcon(true);
-      setActiveSearchIcon(false);
-    }
     if (children != null) {
       setSearching(true);
     } else {
@@ -95,7 +91,7 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
           {isSearching && children}
         </div>
       </div>
-      {input?.current?.value?.trim()?.length >= 3 && !isSearching && (
+      {(input?.current?.value?.trim()?.length >= 3) && !isSearching && (
         <div className={styles.searchResults_Notfound}>
           <div className={styles.searchResults_NotfoundChildren}>
             <p className={styles.resultsText}>

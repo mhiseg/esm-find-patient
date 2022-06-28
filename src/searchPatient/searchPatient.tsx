@@ -7,7 +7,6 @@ import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
 const SearchPatient: React.FC = () => {
   const [patients, setPatient] = useState([]);
-  const [patientNotFound, setPatientNotFound] = useState(undefined);
   const { t } = useTranslation();
   const to: NavigateOptions = { to: window.spaBase + "/death/patient" };
 
@@ -15,11 +14,9 @@ const SearchPatient: React.FC = () => {
     if (e.currentTarget.value.trim().length !== 0) {
       getPatient(e.currentTarget.value).then((patients) => {
         setPatient(patients);
-        setPatientNotFound(patients === undefined);
       });
     } else {
       setPatient([]);
-      setPatientNotFound(false);
     }
   }
 
@@ -36,8 +33,8 @@ const SearchPatient: React.FC = () => {
           >
             {patients.length > 0
               ? patients.map((cadre) => {
-                  return <PatientCard key={cadre.id} patient={cadre} />
-                })
+                return <PatientCard key={cadre.id} patient={cadre} />
+              })
               : null}
           </SearchInput>
         </div>
@@ -47,4 +44,3 @@ const SearchPatient: React.FC = () => {
 };
 
 export default SearchPatient;
- 

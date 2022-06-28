@@ -66,6 +66,16 @@ export async function getPatient(query) {
         value: identifier.display.split(" = ")[1].trim(),
       };
     });
+  const formatValided = (item) => {
+    let formated = false;
+    item?.map(function (element) {
+      if (element?.attributeType?.display === "Death Validated") {
+        return (element?.attributeType?.display === "Death Validated")
+          ? formated = true : formated = false
+      }
+    })
+    return formated;
+  }
 
   const formatConcept = (concepts, uuid) => {
     let value = "";
@@ -82,7 +92,6 @@ export async function getPatient(query) {
   }
 
   if (searchResult) {
-    console.log(searchResult)
     patients = Promise.all(
       searchResult?.data.results?.map(async function (item, i) {
         const relationships = await openmrsFetch(
@@ -91,22 +100,16 @@ export async function getPatient(query) {
             method: "GET",
           }
         );
-        const Allconcept = await fetchObsByPatientAndEncounterType(item.uuid, encounterTypeCheckIn)
+        const Allconcept = await fetchObsByPatientAndEncounterType(item?.uuid, encounterTypeCheckIn)
         const attributs = formatAttribute(relationships?.data?.results?.[0]?.personA?.attributes);
-        console.log(
-          relationships?.data?.results?.[0]?.personA?.display,
-          relationships?.data?.results?.[0]?.relationshipType?.aIsToB,
-          attributs?.map(attribut => {
-            return (attribut.type == "Telephone Number") ? attribut.value : ""
-          })
-        )
+        const personAttributes = formatAttribute(item?.person?.attributes);
+        const identities = formatAttribute(item.identifiers);
         return {
           id: item?.uuid,
-          identify: checkUndefined(item?.identifiers?.map((element) => {
-            return element?.identifierType?.display === ("CIN" || "NIF")
-              ? element?.identifier : "";
-          }).toString()),
-          No_dossier: checkUndefined(item?.identifiers[0]?.identifier),
+          identify: identities.find(
+            (identifier) => identifier.type == "CIN" || identifier.type == "CIN"
+          )?.value,
+          No_dossier: checkUndefined(item?.identifiers?.[0]?.identifier),
 
           firstName: checkUndefined(item?.person?.names?.[0]?.familyName),
 
@@ -127,32 +130,24 @@ export async function getPatient(query) {
 
           habitat: formatConcept(Allconcept, habitatConcept),
 
-          phoneNumber: checkUndefined(item?.person?.attributes?.map((element) => {
-            return (element?.attributeType?.display === "Telephone Number")
-              ? element?.value
-              : ""
-          }).toString()),
+          phoneNumber: checkUndefined(personAttributes.find(
+            (attribute) => attribute.type == "Telephone Number"
+          )?.value),
 
           gender: checkUndefined(item?.person?.gender),
 
-          birthplace: checkUndefined(item?.person?.attributes?.map((element) => {
-            return (element?.attributeType?.display === "Birthplace")
-              ? element?.value
-              : "";
-          }).toString()),
+          birthplace: checkUndefined(personAttributes.find(
+            (attribute) => attribute.type == "Birthplace"
+          )?.value),
 
-          dead: checkUndefined(item.person.dead),
+          dead: checkUndefined(item?.person?.dead),
 
           occupation: formatConcept(Allconcept, occupationConcept),
 
           matrimonial: formatConcept(Allconcept, maritalStatusConcept),
 
           deathDate: "",
-          valided: checkUndefined(item?.person?.attributes?.map((element) => {
-            return (element?.attributeType?.display === "valided")
-              ? element?.value
-              : "";
-          }).toString()),
+          valided: checkUndefined(formatValided(item?.person?.attributes)),
 
           relationship: [
             relationships?.data?.results?.[0]?.personB?.display,
