@@ -57,7 +57,7 @@ export async function getPatient(query) {
   );
 
   function checkUndefined(value) {
-    return (value !== null && value !== undefined) ? value : "";
+    return ( value !== null && value !== undefined) ? value : "";
   }
   const formatAttribute = (item) =>
     item?.map((identifier) => {
@@ -78,10 +78,8 @@ export async function getPatient(query) {
   }
 
   const formatConcept = (concepts, uuid) => {
-    let value = "";
-    concepts?.map((concept) => {
-      value = (concept?.concept?.uuid == uuid) ? concept?.answer?.display : ""
-    })
+    let value;
+    concepts?.map((concept) => (concept?.concept?.uuid == uuid) && (value=concept?.answer?.display) )
     return value;
   }
   const formatResidence = (country, village, address) => {
@@ -109,45 +107,41 @@ export async function getPatient(query) {
           identify: identities.find(
             (identifier) => identifier.type == "CIN" || identifier.type == "NIF"
           )?.value,
-          No_dossier: checkUndefined(item?.identifiers?.[0]?.identifier),
+          No_dossier: item?.identifiers?.[0]?.identifier,
 
-          firstName: checkUndefined(item?.person?.names?.[0]?.familyName),
+          firstName: item?.person?.names?.[0]?.familyName,
 
-          lastName: checkUndefined(
-            item?.person?.names?.[0]?.givenName +
-            " " +
-            checkUndefined(item?.person?.names?.[0]?.middleName)
-          ),
+          lastName: item?.person?.names?.[0]?.givenName,
 
-          birth: checkUndefined(item?.person?.birthdate.split("T")?.[0]),
+          birth: item?.person?.birthdate?.split("T")?.[0],
 
           residence:
             formatResidence(
-              item?.person?.addresses?.[0]?.country,
-              item?.person?.addresses?.[0]?.cityVillage,
-              item?.person?.addresses?.[0]?.display
+              checkUndefined(item?.person?.addresses?.[0]?.country),
+              checkUndefined(item?.person?.addresses?.[0]?.cityVillage),
+              checkUndefined(item?.person?.addresses?.[0]?.display)
             ),
 
           habitat: formatConcept(Allconcept, habitatConcept),
 
-          phoneNumber: checkUndefined(personAttributes.find(
+          phoneNumber: personAttributes.find(
             (attribute) => attribute.type == "Telephone Number"
-          )?.value),
+          )?.value,
 
-          gender: checkUndefined(item?.person?.gender),
+          gender: item?.person?.gender,
 
-          birthplace: checkUndefined(personAttributes.find(
+          birthplace: personAttributes.find(
             (attribute) => attribute.type == "Birthplace"
-          )?.value),
+          )?.value,
 
-          dead: checkUndefined(item?.person?.dead),
+          dead: item?.person?.dead,
 
           occupation: formatConcept(Allconcept, occupationConcept),
 
           matrimonial: formatConcept(Allconcept, maritalStatusConcept),
 
-          deathDate: "",
-          valided: checkUndefined(formatValided(item?.person?.attributes)),
+          deathDate: item?.person?.deathDate,
+          valided: formatValided(item?.person?.attributes),
 
           relationship: [
             relationships?.data?.results?.[0]?.personB?.display,

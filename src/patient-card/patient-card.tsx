@@ -29,6 +29,7 @@ const PatientCard = ({ patient }) => {
   useEffect(() => {
     setuserFunction(getCurrenUserFunction());
   }, []);
+  
   return (
     <Tile onClick={editPatient} className={styles.cardBox} light={true}>
       <Grid className={styles.pm0} fullWidth={true}>
