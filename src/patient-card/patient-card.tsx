@@ -6,13 +6,10 @@ import PatientCardCell from "./patient-cardCell";
 import RelationShipCard from "../relationShipCard/relationShiphCard";
 import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { getCurrenUserFunction } from "../patient-getter.resource";
-import { mergeMap } from 'rxjs/operators';
 
-const PatientCard = ({ patient }) => {
+
+const PatientCard = ({ patient, userRole }) => {
   const { t } = useTranslation();
-  const [userFunction, setuserFunction] = useState(null);
   const toDeclare: NavigateOptions = {
     to: window.spaBase + "/death/declare/patient/" + patient.id,
   };
@@ -26,10 +23,6 @@ const PatientCard = ({ patient }) => {
     navigate(toEditPatient);
   };
 
-  useEffect(() => {
-    setuserFunction(getCurrenUserFunction());
-  }, []);
-  
   return (
     <Tile onClick={editPatient} className={styles.cardBox} light={true}>
       <Grid className={styles.pm0} fullWidth={true}>
@@ -141,12 +134,12 @@ const PatientCard = ({ patient }) => {
                       {!patient.dead && (
                         <Button
                           size="sm"
+                          id={styles.buttonDeclare}
+                          className={styles.cardButton}
                           onClick={(e) => {
                             navigate(toDeclare);
                             e.stopPropagation();
                           }}
-                          id={styles.buttonDeclare}
-                          className={styles.cardButton}
                         >
                           {t("declareDeath")}
                           <Icon
@@ -156,7 +149,7 @@ const PatientCard = ({ patient }) => {
                         </Button>
                       )}
 
-                      {patient.dead && patient.valided === false && (userFunction !== "nurse") && (
+                      {patient.dead && patient.valided === false && (userRole !== "nurse") && (
                         <Button
                           size="sm"
                           className={styles.cardButton}
@@ -172,18 +165,18 @@ const PatientCard = ({ patient }) => {
                           />
                         </Button>
                       )}
-                      {patient.dead && patient.valided && (
+                      {patient.dead && patient.valided===true && (
                         <Button
                           size="sm"
                           onClick={(e) => {
                             e.stopPropagation();
                           }}
-                          id={styles.buttonDeclare}
+                          id={styles.buttonPrint}
                           className={styles.cardButton}
                         >
                           {t("print")}
                           <Icon
-                            icon="healthicons:chart-death-rate-increasing"
+                            icon="cil:print"
                             className={styles.cardButtonIcon}
                           />
                         </Button>

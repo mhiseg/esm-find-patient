@@ -12,6 +12,6 @@
     "search": "Chercher",
     "searchForPatient": "Rechercher un patient par nom ou numéro d'identification",
     "trySearchWithPatientUniqueID": "Essayez de rechercher avec le numéro d'identification unique du patient",
-    "declareDeath":"Declarer mort",
+    "declareDeath":"Declarer",
     "validedDeath":"Valider"
 }

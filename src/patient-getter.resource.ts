@@ -1,6 +1,7 @@
-import { getCurrentUser, openmrsFetch, userHasAccess } from "@openmrs/esm-framework";
+import { getCurrentUser, openmrsFetch, openmrsObservableFetch, userHasAccess } from "@openmrs/esm-framework";
 import { encounterTypeCheckIn, habitatConcept, maritalStatusConcept, occupationConcept } from "./constant";
-import { User } from './types'
+import { mergeMap } from 'rxjs/operators';
+import { User } from '../.history/src/types/index_20220627111243';
 /**
  * This is a somewhat silly resource function. It searches for a patient
  * using the REST API, and then immediately gets the data using the FHIR
@@ -19,19 +20,16 @@ import { User } from './types'
 
 const BASE_WS_API_URL = '/ws/rest/v1/';
 
-export function getCurrenUserFunction() {
-  let currentUserFunction = [];
-  getCurrentUser().subscribe(
-    user => {
-      currentUserFunction['function'] = user.systemId.split("-")?.[0];
-    })
-  return currentUserFunction;
+export async function getCurrentUserRoleSession() {
+  let CurrentSession;
+   await openmrsFetch(`${BASE_WS_API_URL}session`).then(data => { CurrentSession = data.data.user.systemId.split("-")[0] });
+  return CurrentSession;
 }
 
 async function fetchObsByPatientAndEncounterType(patientUuid: string, encounterType: string) {
   if (patientUuid && encounterType) {
+    let encounter = await openmrsFetch(`${BASE_WS_API_URL}encounter?patient=${patientUuid}&encounterType=${encounterType}&v=default`, { method: 'GET' });
     let observations = [];
-    const encounter = await openmrsFetch(`${BASE_WS_API_URL}encounter?patient=${patientUuid}&encounterType=${encounterType}&v=default`, { method: 'GET' });
     let concepts = encounter.data.results[(encounter.data.results?.length) - 1]?.obs;
     if (concepts) {
       await Promise.all(concepts.map(async concept => {
@@ -43,6 +41,7 @@ async function fetchObsByPatientAndEncounterType(patientUuid: string, encounterT
   }
   return Promise.resolve(null);
 }
+
 function getObs(path: string) {
   return openmrsFetch(`${BASE_WS_API_URL + path.split(BASE_WS_API_URL)[1]}?lang=${localStorage.i18nextLng}`, { method: 'GET' });
 }
@@ -50,14 +49,14 @@ function getObs(path: string) {
 export async function getPatient(query) {
   let patients;
   const searchResult = await openmrsFetch(
-    `/ws/rest/v1/patient?v=full&q=${query}&includeDead=true`,
+    `${BASE_WS_API_URL}patient?v=full&q=${query}&includeDead=true`,
     {
       method: "GET",
     }
   );
 
   function checkUndefined(value) {
-    return ( value !== null && value !== undefined) ? value : "";
+    return (value !== null && value !== undefined) ? value : "";
   }
   const formatAttribute = (item) =>
     item?.map((identifier) => {
@@ -66,6 +65,7 @@ export async function getPatient(query) {
         value: identifier.display.split(" = ")[1].trim(),
       };
     });
+
   const formatValided = (item) => {
     let formated = false;
     item?.map(function (element) {
@@ -79,9 +79,10 @@ export async function getPatient(query) {
 
   const formatConcept = (concepts, uuid) => {
     let value;
-    concepts?.map((concept) => (concept?.concept?.uuid == uuid) && (value=concept?.answer?.display) )
+    concepts?.map((concept) => (concept?.concept?.uuid == uuid) && (value = concept?.answer?.display))
     return value;
   }
+
   const formatResidence = (country, village, address) => {
     let residenceCountry = checkUndefined(country) !== "" ? country + ", " : "";
     let residenceVillage = checkUndefined(village) !== "" ? village + ", " : "";
@@ -91,22 +92,23 @@ export async function getPatient(query) {
 
   if (searchResult) {
     patients = Promise.all(
-      searchResult?.data.results?.map(async function (item, i) {
+      searchResult?.data.results?.map(async function (item) {
         const relationships = await openmrsFetch(
-          `/ws/rest/v1/relationship?v=full&person=${item?.uuid}`,
+          `${BASE_WS_API_URL}relationship?v=full&person=${item?.uuid}`,
           {
             method: "GET",
           }
-        );
-        const Allconcept = await fetchObsByPatientAndEncounterType(item?.uuid, encounterTypeCheckIn)
+        )
+
+        const Allconcept = await fetchObsByPatientAndEncounterType(item?.uuid, encounterTypeCheckIn);
         const attributs = formatAttribute(relationships?.data?.results?.[0]?.personA?.attributes);
         const personAttributes = formatAttribute(item?.person?.attributes);
         const identities = formatAttribute(item.identifiers);
         return {
           id: item?.uuid,
-          identify: identities.find(
-            (identifier) => identifier.type == "CIN" || identifier.type == "NIF"
-          )?.value,
+
+          identify: identities.find((identifier) => identifier.type == "CIN" || identifier.type == "NIF")?.value,
+
           No_dossier: item?.identifiers?.[0]?.identifier,
 
           firstName: item?.person?.names?.[0]?.familyName,
@@ -124,15 +126,11 @@ export async function getPatient(query) {
 
           habitat: formatConcept(Allconcept, habitatConcept),
 
-          phoneNumber: personAttributes.find(
-            (attribute) => attribute.type == "Telephone Number"
-          )?.value,
+          phoneNumber: personAttributes.find(attribute => attribute.type == "Telephone Number")?.value,
 
           gender: item?.person?.gender,
 
-          birthplace: personAttributes.find(
-            (attribute) => attribute.type == "Birthplace"
-          )?.value,
+          birthplace: personAttributes.find(attribute => attribute.type == "Birthplace")?.value,
 
           dead: item?.person?.dead,
 
@@ -141,14 +139,13 @@ export async function getPatient(query) {
           matrimonial: formatConcept(Allconcept, maritalStatusConcept),
 
           deathDate: item?.person?.deathDate,
+
           valided: formatValided(item?.person?.attributes),
 
           relationship: [
             relationships?.data?.results?.[0]?.personB?.display,
             relationships?.data?.results?.[0]?.relationshipType?.aIsToB,
-            attributs?.map(attribut => {
-              return (attribut.type == "Telephone Number") ? attribut.value : ""
-            })
+            attributs?.map(attribut => (attribut.type == "Telephone Number") ? attribut.value : "")
           ]
         }
       })
