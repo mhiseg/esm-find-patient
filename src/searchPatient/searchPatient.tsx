@@ -49,5 +49,4 @@ const SearchPatient: React.FC = () => {
     </>
   );
 };
-
 export default SearchPatient;

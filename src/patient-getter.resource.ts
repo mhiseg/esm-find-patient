@@ -1,7 +1,5 @@
-import { getCurrentUser, openmrsFetch, openmrsObservableFetch, userHasAccess } from "@openmrs/esm-framework";
+import { openmrsFetch } from "@openmrs/esm-framework";
 import { encounterTypeCheckIn, habitatConcept, maritalStatusConcept, occupationConcept } from "./constant";
-import { mergeMap } from 'rxjs/operators';
-import { User } from '../.history/src/types/index_20220627111243';
 /**
  * This is a somewhat silly resource function. It searches for a patient
  * using the REST API, and then immediately gets the data using the FHIR
@@ -119,9 +117,9 @@ export async function getPatient(query) {
 
           residence:
             formatResidence(
-              checkUndefined(item?.person?.addresses?.[0]?.country),
+              checkUndefined(item?.person?.addresses?.[0]?.display),
               checkUndefined(item?.person?.addresses?.[0]?.cityVillage),
-              checkUndefined(item?.person?.addresses?.[0]?.display)
+              checkUndefined(item?.person?.addresses?.[0]?.country)
             ),
 
           habitat: formatConcept(Allconcept, habitatConcept),
@@ -143,7 +141,7 @@ export async function getPatient(query) {
           valided: formatValided(item?.person?.attributes),
 
           relationship: [
-            relationships?.data?.results?.[0]?.personB?.display,
+            relationships?.data?.results?.[0]?.personA?.display,
             relationships?.data?.results?.[0]?.relationshipType?.aIsToB,
             attributs?.map(attribut => (attribut.type == "Telephone Number") ? attribut.value : "")
           ]
