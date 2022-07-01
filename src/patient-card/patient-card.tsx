@@ -130,7 +130,6 @@ const PatientCard = ({ patient, userRole }) => {
                         : `${styles.heartStyle} ${styles.heartGray}`
                       }
                     />
-                    <Column>
                       {!patient.dead && (
                         <Button
                           size="sm"
@@ -181,7 +180,6 @@ const PatientCard = ({ patient, userRole }) => {
                           />
                         </Button>
                       )}
-                    </Column>
                   </Column>
                 </Column>
               </Row>

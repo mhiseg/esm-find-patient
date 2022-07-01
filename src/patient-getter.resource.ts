@@ -20,7 +20,7 @@ const BASE_WS_API_URL = '/ws/rest/v1/';
 
 export async function getCurrentUserRoleSession() {
   let CurrentSession;
-   await openmrsFetch(`${BASE_WS_API_URL}session`).then(data => { CurrentSession = data.data.user.systemId.split("-")[0] });
+  await openmrsFetch(`${BASE_WS_API_URL}session`).then(data => { CurrentSession = data.data.user.systemId.split("-")[0] });
   return CurrentSession;
 }
 
@@ -81,11 +81,11 @@ export async function getPatient(query) {
     return value;
   }
 
-  const formatResidence = (country, village, address) => {
-    let residenceCountry = checkUndefined(country) !== "" ? country + ", " : "";
+  const formatResidence = (address, village, country) => {
+    let residenceAddress = checkUndefined(address) !== "" ? address + ", " : "";
     let residenceVillage = checkUndefined(village) !== "" ? village + ", " : "";
-    let residenceAddress = checkUndefined(address) !== "" ? address : "";
-    return residenceCountry + residenceVillage + residenceAddress;
+    let residenceCountry = checkUndefined(country) !== "" ? country : "";
+    return residenceAddress + residenceVillage + residenceCountry;
   }
 
   if (searchResult) {
@@ -141,7 +141,7 @@ export async function getPatient(query) {
           valided: formatValided(item?.person?.attributes),
 
           relationship: [
-            relationships?.data?.results?.[0]?.personA?.display,
+            relationships?.data?.results?.[0]?.personB?.display,
             relationships?.data?.results?.[0]?.relationshipType?.aIsToB,
             attributs?.map(attribut => (attribut.type == "Telephone Number") ? attribut.value : "")
           ]
