@@ -1,12 +1,19 @@
 import React from "react";
-import { Button, Column, Grid, Row, Tile } from "carbon-components-react";
+import {
+  Button,
+  Column,
+  Grid,
+  OverflowMenuItem,
+  Row,
+  Tile,
+} from "carbon-components-react";
 import { Icon } from "@iconify/react";
 import styles from "./patient-card.scss";
 import PatientCardCell from "./patient-cardCell";
 import RelationShipCard from "../relationShipCard/relationShiphCard";
 import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
-
+import { PopoverButton } from "../popOver/PopoverButton";
 
 const PatientCard = ({ patient, userRole }) => {
   const { t } = useTranslation();
@@ -24,10 +31,9 @@ const PatientCard = ({ patient, userRole }) => {
   };
 
   return (
-    <Tile onClick={editPatient} className={styles.cardBox} light={true}>
+    <Tile className={styles.cardBox} light={true}>
       <Grid className={styles.pm0} fullWidth={true}>
         <Row className={styles.pm0}>
-          {/* Partie reserve pour mettre la photo */}
           <Column className={styles.patientPhoto} lg={1}>
             <p className={styles.alias}>
               {(
@@ -36,7 +42,6 @@ const PatientCard = ({ patient, userRole }) => {
               ).toUpperCase()}
             </p>
           </Column>
-          {/* Partie reserve pour les infos */}
           <Column className={styles.pm0} lg={11}>
             <Grid className={styles.pm0} fullWidth={true}>
               <Column lg={12}>
@@ -59,9 +64,20 @@ const PatientCard = ({ patient, userRole }) => {
                     </h1>
                   </Column>
                   <Column className={styles.pm0} lg={6}>
+                    <PopoverButton>
+                      <OverflowMenuItem
+                        itemText={t("editPatient")}
+                        onClick={editPatient}
+                      />
+                      <OverflowMenuItem
+                        itemText={t("EditdeclareDeath")}
+                        onClick={editPatient}
+                      />
+                    </PopoverButton>
+
                     <h3 className={`${styles.align} ${styles.pm0}`}>
                       <Icon icon="bxs:folder" className={styles.iconHead} />
-                      {patient.No_dossier}
+                      {patient.No_dossier}{" "}
                     </h3>
                   </Column>
                 </Row>
@@ -110,7 +126,7 @@ const PatientCard = ({ patient, userRole }) => {
                     icon="akar-icons:link-chain"
                     label={
                       patient.relationship[0] != "" &&
-                        patient.relationship[0] != null ? (
+                      patient.relationship[0] != null ? (
                         <RelationShipCard
                           relationshipName={patient.relationship[0]}
                           relationshipType={patient.relationship[1]}
@@ -125,30 +141,33 @@ const PatientCard = ({ patient, userRole }) => {
                   <Column className={styles.borderLeft}>
                     <Icon
                       icon="fluent:heart-pulse-20-filled"
-                      className={!patient.dead
-                        ? `${styles.heartStyle} ${styles.heartRed}`
-                        : `${styles.heartStyle} ${styles.heartGray}`
+                      className={
+                        !patient.dead
+                          ? `${styles.heartStyle} ${styles.heartRed}`
+                          : `${styles.heartStyle} ${styles.heartGray}`
                       }
                     />
-                      {!patient.dead && (
-                        <Button
-                          size="sm"
-                          id={styles.buttonDeclare}
-                          className={styles.cardButton}
-                          onClick={(e) => {
-                            navigate(toDeclare);
-                            e.stopPropagation();
-                          }}
-                        >
-                          {t("declareDeath")}
-                          <Icon
-                            icon="healthicons:chart-death-rate-increasing"
-                            className={styles.cardButtonIcon}
-                          />
-                        </Button>
-                      )}
+                    {!patient.dead && (
+                      <Button
+                        size="sm"
+                        id={styles.buttonDeclare}
+                        className={styles.cardButton}
+                        onClick={(e) => {
+                          navigate(toDeclare);
+                          e.stopPropagation();
+                        }}
+                      >
+                        {t("declareDeath")}
+                        <Icon
+                          icon="healthicons:chart-death-rate-increasing"
+                          className={styles.cardButtonIcon}
+                        />
+                      </Button>
+                    )}
 
-                      {patient.dead && patient.valided === false && (userRole !== "nurse") && (
+                    {patient.dead &&
+                      patient.valided === false &&
+                      userRole !== "nurse" && (
                         <Button
                           size="sm"
                           className={styles.cardButton}
@@ -164,22 +183,22 @@ const PatientCard = ({ patient, userRole }) => {
                           />
                         </Button>
                       )}
-                      {patient.dead && patient.valided===true && (
-                        <Button
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                          id={styles.buttonPrint}
-                          className={styles.cardButton}
-                        >
-                          {t("print")}
-                          <Icon
-                            icon="cil:print"
-                            className={styles.cardButtonIcon}
-                          />
-                        </Button>
-                      )}
+                    {patient.dead && patient.valided === true && (
+                      <Button
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        id={styles.buttonPrint}
+                        className={styles.cardButton}
+                      >
+                        {t("print")}
+                        <Icon
+                          icon="cil:print"
+                          className={styles.cardButtonIcon}
+                        />
+                      </Button>
+                    )}
                   </Column>
                 </Column>
               </Row>

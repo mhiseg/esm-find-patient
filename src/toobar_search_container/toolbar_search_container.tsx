@@ -38,19 +38,17 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
       setActiveRemoveIcon(false);
       setActiveSearchIcon(true);
     }
-  };
-  useEffect(() => {
-    if (children != null) {
+    if (input.current.value.trim()?.length >= 3) {
       setSearching(true);
     } else {
       setSearching(false);
     }
-  }, [children]);
-
+  };
   return (
     <div>
       <i className={styles.SearchIcon}>
-        <Icon icon="carbon:search"
+        <Icon
+          icon="carbon:search"
           id={styles.searchIcon}
           className={isActiveSearchIcon ? styles["SearchIconChild"] : ""}
           onClick={toggleClass}
@@ -70,8 +68,8 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
         placeholder="Search..."
         className={styles["search-1"]}
         autoComplete="off"
-        onChange={onChangeInput}
-        onInput={onInputChange}
+        onInput={onChangeInput}
+        onChange={onInputChange}
       />
       <Button
         renderIcon={Add}
@@ -91,42 +89,6 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
           {isSearching && children}
         </div>
       </div>
-      {(input?.current?.value?.trim()?.length >= 3) && !isSearching && (
-        <div className={styles.searchResults_Notfound}>
-          <div className={styles.searchResults_NotfoundChildren}>
-            <p className={styles.resultsText}>
-              {t("noResultsFound", "No results found")}
-            </p>
-            <Tile className={styles.emptySearchResultsTile}>
-              <EmptyDataIllustration />
-              <p className={styles.emptyResultText}>
-                {t(
-                  "noPatientChartsFoundMessage",
-                  "Sorry, no patient charts have been found"
-                )}
-              </p>
-              <p className={styles.actionText}>
-                <span>
-                  {t(
-                    "trySearchWithPatientUniqueID",
-                    "Try searching with the patient's unique ID number"
-                  )}
-                </span>
-                <br />
-                <span>{t("orPatientName", "OR the patient's name(s)")}</span>
-              </p>
-              <Button
-                className={styles.ButtonAdd}
-                onClick={() => {
-                  navigate(to);
-                }}
-              >
-                {t("New patient")}
-              </Button>
-            </Tile>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

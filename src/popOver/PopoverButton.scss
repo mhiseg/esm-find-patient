@@ -1,0 +1,12 @@
+#custom-actions-overflow-menu{
+    position: absolute;
+    margin-left: 91%;
+}
+
+@media screen and (max-width: 1055px) {
+    #custom-actions-overflow-menu{
+        position: absolute;
+        margin-top: 100px;
+        margin-left: 78%;
+    } 
+}

@@ -5,7 +5,7 @@
     border-radius: 5px;
     border: 0.1px solid #c5c4c4;
     text-align: start;
-    margin-bottom: 1em;
+    margin-bottom: 1em; 
 
     .name {
         font-family: 'Roboto';
@@ -22,11 +22,6 @@
         }
     }
 }
-
-.cardBox:hover {
-    background-color: #d8d5d5;
-}
-
 .align {
     float: right;
 }
@@ -47,6 +42,7 @@
     }
 
 }
+
 @media screen and (min-width: 1300px) {
     .cardBox {
         width: 120%;
@@ -71,10 +67,6 @@
 
             }
         }
-    }
-
-    .cardBox:hover {
-        background-color: #d8d5d5;
     }
 }
 
@@ -104,9 +96,6 @@
         }
     }
 
-    .cardBox:hover {
-        background-color: #d8d5d5;
-    }
 }
 
 @media screen and (min-width: 1900px) {
@@ -135,9 +124,7 @@
         }
     }
 
-    .cardBox:hover {
-        background-color: #d8d5d5;
-    }
+   
 }
 
 @media screen and (min-width: 1900px) {
@@ -256,4 +243,17 @@
     margin-bottom: -5px;
     margin-left: -7px;
     margin-right: 5px;
+}
+
+.iconMenu {
+    margin-left: 20px;
+    height: 30px;
+    cursor: pointer;
+}
+.iconMenu:active {
+
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #636363;
+
 }
