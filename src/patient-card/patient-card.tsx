@@ -64,20 +64,25 @@ const PatientCard = ({ patient, userRole }) => {
                     </h1>
                   </Column>
                   <Column className={styles.pm0} lg={6}>
-                    <PopoverButton>
-                      <OverflowMenuItem
-                        itemText={t("editPatient")}
-                        onClick={editPatient}
-                      />
-                      <OverflowMenuItem
-                        itemText={t("EditdeclareDeath")}
-                        onClick={editPatient}
-                      />
-                    </PopoverButton>
-
+                    {patient.valided === false && (
+                      <>
+                        <PopoverButton>
+                          <OverflowMenuItem
+                            itemText={t("editPatient")}
+                            onClick={editPatient}
+                          />
+                          {userRole !== "nurse" && (
+                            <OverflowMenuItem
+                              itemText={t("EditdeclareDeath")}
+                              onClick={editPatient}
+                            />
+                          )}
+                        </PopoverButton>
+                      </>
+                    )}
                     <h3 className={`${styles.align} ${styles.pm0}`}>
                       <Icon icon="bxs:folder" className={styles.iconHead} />
-                      {patient.No_dossier}{" "}
+                      {patient.No_dossier}
                     </h3>
                   </Column>
                 </Row>
@@ -101,7 +106,7 @@ const PatientCard = ({ patient, userRole }) => {
 
                 <Column lg={3}>
                   <PatientCardCell
-                    icon="ant-design:field-number-outlined"
+                    icon="teenyicons:id-outline"
                     label={patient.identify}
                   />
 
@@ -147,6 +152,7 @@ const PatientCard = ({ patient, userRole }) => {
                           : `${styles.heartStyle} ${styles.heartGray}`
                       }
                     />
+
                     {!patient.dead && (
                       <Button
                         size="sm"
@@ -158,6 +164,7 @@ const PatientCard = ({ patient, userRole }) => {
                         }}
                       >
                         {t("declareDeath")}
+
                         <Icon
                           icon="healthicons:chart-death-rate-increasing"
                           className={styles.cardButtonIcon}
@@ -177,6 +184,7 @@ const PatientCard = ({ patient, userRole }) => {
                           }}
                         >
                           {t("validedDeath")}
+
                           <Icon
                             icon="flat-color-icons:ok"
                             className={styles.cardButtonIcon}
@@ -193,6 +201,7 @@ const PatientCard = ({ patient, userRole }) => {
                         className={styles.cardButton}
                       >
                         {t("print")}
+
                         <Icon
                           icon="cil:print"
                           className={styles.cardButtonIcon}

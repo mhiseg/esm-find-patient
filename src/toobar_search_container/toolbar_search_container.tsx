@@ -29,6 +29,10 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
       input.current.focus();
     }
   };
+  const speclChar = (e) => {
+    let letters = /^[0-9a-z-.]/gi;
+    if (!e.key.match(letters)) e.preventDefault();
+  };
 
   const onInputChange = (e) => {
     if (input.current.value.trim().length == 0) {
@@ -68,6 +72,7 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
         placeholder="Search..."
         className={styles["search-1"]}
         autoComplete="off"
+        onKeyPress={speclChar}
         onInput={onChangeInput}
         onChange={onInputChange}
       />

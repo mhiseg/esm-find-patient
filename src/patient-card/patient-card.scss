@@ -5,7 +5,7 @@
     border-radius: 5px;
     border: 0.1px solid #c5c4c4;
     text-align: start;
-    margin-bottom: 1em; 
+    margin-bottom: 1em;
 
     .name {
         font-family: 'Roboto';
@@ -22,6 +22,7 @@
         }
     }
 }
+
 .align {
     float: right;
 }
@@ -124,7 +125,7 @@
         }
     }
 
-   
+
 }
 
 @media screen and (min-width: 1900px) {
@@ -203,16 +204,17 @@
 
 .labelColumn {
     margin-bottom: 10px;
+    font-size: small;
 }
 
 .cardButton {
     border-radius: 5px;
-    margin: auto;
+    position: relative;
+    display: grid;
     justify-content: center;
-    display: block;
+    margin: auto;
     width: 160px;
 }
-
 #buttonValided {
     color: rgb(255, 255, 255);
     background: #48A029;
@@ -232,8 +234,7 @@
     position: absolute;
     width: 20px;
     height: 20px;
-    margin-left: 10px;
-    margin-top: 1px;
+    margin-left: 50%;
 }
 
 .iconHead {
@@ -250,6 +251,7 @@
     height: 30px;
     cursor: pointer;
 }
+
 .iconMenu:active {
 
     cursor: pointer;
