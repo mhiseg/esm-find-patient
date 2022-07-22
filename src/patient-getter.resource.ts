@@ -17,7 +17,7 @@ import { encounterTypeCheckIn, habitatConcept, maritalStatusConcept, occupationC
  */
 
 const BASE_WS_API_URL = '/ws/rest/v1/';
-export const deathValidatedValue = '32ca8aebf6d96fec125235cbf72dcf4a';
+export const deathValidatedValue = 'a7257403780e198072fd77a4536fe8fd';
 
 export async function getCurrentUserRoleSession() {
   let CurrentSession;
@@ -66,7 +66,7 @@ export async function getPatient(query) {
     });
 
   const formatValided = (item) => {
-    return item !== deathValidatedValue;
+    return item === deathValidatedValue;
   }
 
   const formatConcept = (concepts, uuid) => {
