@@ -29,6 +29,7 @@ const PatientCard = ({ patient, userRole }) => {
   const editPatient = (e) => {
     navigate(toEditPatient);
   };
+  console.log(patient, "=========");
 
   return (
     <Tile className={styles.cardBox} light={true}>
@@ -64,6 +65,7 @@ const PatientCard = ({ patient, userRole }) => {
                     </h1>
                   </Column>
                   <Column className={styles.pm0} lg={6}>
+                    {/* =========================={patient.valided} */}
                     {patient.valided === false && (
                       <>
                         <PopoverButton>
@@ -172,6 +174,24 @@ const PatientCard = ({ patient, userRole }) => {
                         {t("declareDeath")}
 
                         {/* <Icon
+                        <Icon
+                          icon="healthicons:chart-death-rate-increasing"
+                          className={styles.cardButtonIcon}
+                        />
+                      </Button>
+                    )}
+                     { patient.dead && !patient.valided && (
+                      <Button
+                        size="sm"
+                        id={styles.buttonDeclare}
+                        className={styles.cardButton}
+                        onClick={(e) => {
+                          navigate(toDeclare);
+                          e.stopPropagation();
+                        }}
+                      >
+                        {t("EditdeclareDeath")}
+                        <Icon
                           icon="healthicons:chart-death-rate-increasing"
                           className={styles.cardButtonIcon}
                         /> */}
