@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./toolbar_search_container.scss";
-import Add from "@carbon/icons-react/es/add/32";
+//import Add from "@carbon/icons-react/es/add/32";
 import { Button, Tile } from "carbon-components-react";
 import { Icon } from "@iconify/react";
-import EmptyDataIllustration from "./empty-data-illustration.component";
 import { useTranslation } from "react-i18next";
 import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 
@@ -77,7 +76,7 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
         onChange={onInputChange}
       />
       <Button
-        renderIcon={Add}
+        //renderIcon={Add}
         iconDescription=""
         hasIconOnly
         onClick={onClickChangeButton}

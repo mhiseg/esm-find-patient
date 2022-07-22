@@ -9,7 +9,7 @@ import {
 } from "carbon-components-react";
 import { Icon } from "@iconify/react";
 import styles from "./patient-card.scss";
-import PatientCardCell from "./patient-cardCell";
+import FormatCardCell from "./patient-cardCell";
 import RelationShipCard from "../relationShipCard/relationShiphCard";
 import { navigate, NavigateOptions } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
@@ -80,8 +80,13 @@ const PatientCard = ({ patient, userRole }) => {
                         </PopoverButton>
                       </>
                     )}
-                    <h3 className={`${styles.align} ${styles.pm0}`}>
-                      <Icon icon="bxs:folder" className={styles.iconHead} />
+                    <h3
+                      className={`${styles.align} ${styles.pm0} ${styles.name}`}
+                    >
+                      <Icon
+                        icon="fluent:folder-open-20-regular"
+                        className={styles.iconHead}
+                      />
                       {patient.No_dossier}
                     </h3>
                   </Column>
@@ -89,45 +94,45 @@ const PatientCard = ({ patient, userRole }) => {
               </Column>
               <Row>
                 <Column lg={4}>
-                  <PatientCardCell
-                    icon="clarity:calendar-solid"
-                    label={patient.birth}
-                  />
+                  <FormatCardCell icon="cil:calendar" label={patient.birth} />
 
-                  <PatientCardCell
-                    icon="entypo:location-pin"
+                  <FormatCardCell
+                    icon="ion:home-outline"
                     label={patient.residence}
                   />
-                  <PatientCardCell
-                    icon="bxs:building"
+                  <FormatCardCell
+                    icon="healthicons:city-outline"
                     label={patient.habitat}
                   />
                 </Column>
 
                 <Column lg={3}>
-                  <PatientCardCell
+                  <FormatCardCell
                     icon="teenyicons:id-outline"
                     label={patient.identify}
                   />
 
-                  <PatientCardCell
+                  <FormatCardCell
                     icon="carbon:user-multiple"
                     label={patient.matrimonial}
                   />
 
-                  <PatientCardCell
-                    icon="ic:outline-work"
+                  <FormatCardCell
+                    icon="ic:baseline-work-outline"
                     label={patient.occupation}
                   />
                 </Column>
 
                 <Column lg={3}>
-                  <PatientCardCell
-                    icon="bxs:phone-call"
+                  <FormatCardCell
+                    icon="carbon:phone"
                     label={patient.phoneNumber}
                   />
-                  <PatientCardCell icon="ep:place" label={patient.birthplace} />
-                  <PatientCardCell
+                  <FormatCardCell
+                    icon="bytesize:location"
+                    label={patient.birthplace}
+                  />
+                  <FormatCardCell
                     icon="akar-icons:link-chain"
                     label={
                       patient.relationship[0] != "" &&
@@ -155,6 +160,7 @@ const PatientCard = ({ patient, userRole }) => {
 
                     {!patient.dead && (
                       <Button
+                        kind="tertiary"
                         size="sm"
                         id={styles.buttonDeclare}
                         className={styles.cardButton}
@@ -165,10 +171,10 @@ const PatientCard = ({ patient, userRole }) => {
                       >
                         {t("declareDeath")}
 
-                        <Icon
+                        {/* <Icon
                           icon="healthicons:chart-death-rate-increasing"
                           className={styles.cardButtonIcon}
-                        />
+                        /> */}
                       </Button>
                     )}
 
@@ -176,6 +182,7 @@ const PatientCard = ({ patient, userRole }) => {
                       patient.valided === false &&
                       userRole !== "nurse" && (
                         <Button
+                          kind="tertiary"
                           size="sm"
                           className={styles.cardButton}
                           onClick={(e) => {
@@ -193,14 +200,15 @@ const PatientCard = ({ patient, userRole }) => {
                       )}
                     {patient.dead && patient.valided === true && (
                       <Button
+                        id={styles.buttonPrint}
+                        kind="tertiary"
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
-                        id={styles.buttonPrint}
                         className={styles.cardButton}
                       >
-                        {t("print")}
+                        {t("Imprimer")}
 
                         <Icon
                           icon="cil:print"

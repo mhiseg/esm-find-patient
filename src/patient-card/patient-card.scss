@@ -1,11 +1,12 @@
 .cardBox {
     width: 100%;
     box-sizing: border-box;
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.30);
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.10);
     border-radius: 5px;
-    border: 0.1px solid #c5c4c4;
+    border: 0.05px solid #e1e0e0;
     text-align: start;
     margin-bottom: 1em;
+
 
     .name {
         font-family: 'Roboto';
@@ -14,13 +15,26 @@
         line-height: 40px;
         text-transform: uppercase;
         margin: auto;
+        color: rgb(87, 86, 86);
 
         span {
             text-transform: none;
             font-weight: bold;
-
         }
     }
+
+}
+
+.cardBox:hover {
+    border: 2px solid rgb(161, 224, 247);
+}
+
+.iconLabel {
+    position: absolute;
+    margin-top: 5px;
+    font-size: 12.5px;
+    font-weight: lighter;
+    color: rgb(87, 86, 86);
 }
 
 .align {
@@ -28,129 +42,129 @@
 }
 
 .patientPhoto {
-    border-radius: 5px;
-    position: relative;
-    width: 100%;
-    background-color: rgb(12, 247, 165);
-
-    .alias {
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 800;
-        font-size: 40px;
-        color: white;
-        text-align: center;
-    }
-
+    overflow: hidden;
+    background-color: rgb(71, 248, 186);
 }
 
-@media screen and (min-width: 1300px) {
-    .cardBox {
-        width: 120%;
-        box-sizing: border-box;
-        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.30);
-        border-radius: 5px;
-        border: 0.1px solid #c5c4c4;
-        text-align: start;
-        margin-bottom: 1em;
-
-        .name {
-            font-family: 'Roboto';
-            font-style: normal;
-            font-size: 25px;
-            line-height: 40px;
-            text-transform: uppercase;
-            margin: auto;
-
-            span {
-                text-transform: none;
-                font-weight: bold;
-
-            }
-        }
-    }
+.alias {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 40px;
+    color: white;
+    background-color: rgb(71, 248, 186);
+    text-align: center;
+    padding-top: 45px;
+    padding-bottom: 45px;
 }
 
-@media screen and (min-width: 1056px) and (max-width:1299px) {
-    .cardBox {
-        width: 160%;
-        box-sizing: border-box;
-        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.30);
-        border-radius: 5px;
-        border: 0.1px solid #c5c4c4;
-        text-align: start;
-        margin-bottom: 1em;
+// @media screen and (min-width: 1300px) {
+//     .cardBox {
+//         width: 120%;
+//         box-sizing: border-box;
+//         box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.00);
+//         border-radius: 5px;
+//         border: 0.1px solid red;
+//         text-align: start;
+//         margin-bottom: 1em;
 
-        .name {
-            font-family: 'Roboto';
-            font-style: normal;
-            font-size: 25px;
-            line-height: 40px;
-            text-transform: uppercase;
-            margin: auto;
+//         .name {
+//             font-family: 'Roboto';
+//             font-style: normal;
+//             font-size: 25px;
+//             line-height: 40px;
+//             text-transform: uppercase;
+//             margin: auto;
 
-            span {
-                text-transform: none;
-                font-weight: bold;
+//             span {
+//                 text-transform: none;
+//                 font-weight: bold;
 
-            }
-        }
-    }
+//             }
+//         }
+//     }
+// }
 
-}
+// @media screen and (min-width: 1056px) and (max-width:1299px) {
+//     .cardBox {
+//         width: 160%;
+//         box-sizing: border-box;
+//         box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.30);
+//         border-radius: 5px;
+//         border: 0.1px solid #c5c4c4;
+//         text-align: start;
+//         margin-bottom: 1em;
 
-@media screen and (min-width: 1900px) {
-    .cardBox {
-        width: 100%;
-        box-sizing: border-box;
-        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.30);
-        border-radius: 5px;
-        border: 0.1px solid #c5c4c4;
-        text-align: start;
-        margin-bottom: 1em;
+//         .name {
+//             font-family: 'Roboto';
+//             font-style: normal;
+//             font-size: 25px;
+//             line-height: 40px;
+//             text-transform: uppercase;
+//             margin: auto;
 
-        .name {
-            font-family: 'Roboto';
-            font-style: normal;
-            font-size: 25px;
-            line-height: 40px;
-            text-transform: uppercase;
-            margin: auto;
+//             span {
+//                 text-transform: none;
+//                 font-weight: bold;
 
-            span {
-                text-transform: none;
-                font-weight: bold;
+//             }
+//         }
+//     }
 
-            }
-        }
-    }
+// }
+
+// @media screen and (min-width: 1900px) {
+//     .cardBox {
+//         width: 100%;
+//         box-sizing: border-box;
+//         box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.30);
+//         border-radius: 5px;
+//         border: 0.1px solid #c5c4c4;
+//         text-align: start;
+//         margin-bottom: 1em;
+
+//         .name {
+//             font-family: 'Roboto';
+//             font-style: normal;
+//             font-size: 25px;
+//             line-height: 40px;
+//             text-transform: uppercase;
+//             margin: auto;
+
+//             span {
+//                 text-transform: none;
+//                 font-weight: bold;
+
+//             }
+//         }
+//     }
 
 
-}
+// }
 
-@media screen and (min-width: 1900px) {
+// @media screen and (min-width: 1900px) {
 
-    .patientPhoto {
-        border-radius: 5px;
-        position: relative;
-        height: 15vh;
-        width: 100%;
-        background-color: rgb(12, 247, 165);
+//     .patientPhoto {
+//         border-radius: 5px;
+//         position: relative;
+//         height: 15vh;
+//         width: 100%;
+//         background-color: rgb(12, 247, 165);
 
-        .alias {
-            font-family: 'Roboto';
-            font-style: normal;
-            position: relative;
-            font-weight: 800;
-            font-size: 50px;
-            color: white;
-            margin-top: 50%;
-            margin-bottom: -50%;
-            text-align: center;
-        }
+//         .alias {
+//             font-family: 'Roboto';
+//             font-style: normal;
+//             position: relative;
+//             font-weight: 800;
+//             font-size: 50px;
+//             color: white;
+//             margin-top: 50%;
+//             margin-bottom: -50%;
+//             text-align: center;
+//         }
 
-    }
-}
+//     }
+// }
 
 .patientInfo {
     background-color: green;
@@ -181,8 +195,9 @@
 .heartStyle {
     display: block;
     margin: auto;
-    width: 42px;
-    height: 43.45px;
+    width: 32px;
+    height: 33.45px;
+    margin-bottom: 10px;
 }
 
 .heartRed {
@@ -195,11 +210,11 @@
 
 
 .icon {
-    color: #504f4f;
+    color: #7d7d7d;
     width: 20px;
     height: 20px;
     margin-bottom: -2px;
-    margin-right: 15px;
+    margin-right: 5px;
 }
 
 .labelColumn {
@@ -207,43 +222,49 @@
     font-size: small;
 }
 
+.column {
+    margin-bottom: 10px;
+}
+
 .cardButton {
+    background-color: white;
     border-radius: 5px;
     position: relative;
     display: grid;
     justify-content: center;
     margin: auto;
-    width: 160px;
+    min-width: 50px;
 }
+
 #buttonValided {
     color: rgb(255, 255, 255);
     background: #48A029;
 }
 
 #buttonDeclare {
-    color: rgb(255, 255, 255);
-    background: #79b7c2;
+    justify-content: center;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 #buttonPrint {
-    color: rgb(255, 255, 255);
-    background: #48A029;
+    justify-content: center;
 }
 
 .cardButtonIcon {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    margin-left: 50%;
+    width: 14px;
+    height: 14px;
+    margin-left: 75%;
 }
 
 .iconHead {
-    color: #504f4f;
+    color: rgb(87, 86, 86);
     width: 40px;
     height: 30px;
     margin-bottom: -5px;
     margin-left: -7px;
-    margin-right: 5px;
+    margin-right: 3px;
 }
 
 .iconMenu {
