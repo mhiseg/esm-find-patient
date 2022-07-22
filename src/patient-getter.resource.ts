@@ -17,6 +17,7 @@ import { encounterTypeCheckIn, habitatConcept, maritalStatusConcept, occupationC
  */
 
 const BASE_WS_API_URL = '/ws/rest/v1/';
+export const deathValidatedValue = '32ca8aebf6d96fec125235cbf72dcf4a';
 
 export async function getCurrentUserRoleSession() {
   let CurrentSession;
@@ -65,14 +66,7 @@ export async function getPatient(query) {
     });
 
   const formatValided = (item) => {
-    let formated = false;
-    item?.map(function (element) {
-      if (element?.attributeType?.display === "Death Validated") {
-        return (element?.attributeType?.display === "Death Validated")
-          ? formated = true : formated = false
-      }
-    })
-    return formated;
+    return item !== deathValidatedValue;
   }
 
   const formatConcept = (concepts, uuid) => {
@@ -97,7 +91,6 @@ export async function getPatient(query) {
             method: "GET",
           }
         )
-
         const Allconcept = await fetchObsByPatientAndEncounterType(item?.uuid, encounterTypeCheckIn);
         const attributs = formatAttribute(relationships?.data?.results?.[0]?.personA?.attributes);
         const personAttributes = formatAttribute(item?.person?.attributes);
@@ -138,7 +131,7 @@ export async function getPatient(query) {
 
           deathDate: item?.person?.deathDate,
 
-          valided: formatValided(item?.person?.attributes),
+          valided: formatValided(identities.find((identifier) => identifier.type == "Death Validated")?.value),
 
           relationship: [
             relationships?.data?.results?.[0]?.personB?.display,
