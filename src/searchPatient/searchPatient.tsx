@@ -37,7 +37,7 @@ const SearchPatient: React.FC = () => {
   return (
     <>
       <h4 className={`title-page`}>{t("searchPatient", "Find a patient")}</h4>
-      <div className={`mhiseg-main-content `}>
+      <div className={styles.main}>
         <div className={styles.SearchPatient}>
           <SearchInput
             onChangeInput={onHandleChangeSearch}

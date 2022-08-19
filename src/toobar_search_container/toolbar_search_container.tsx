@@ -68,21 +68,21 @@ export function SearchInput({ onChangeInput, onClickChangeButton, children }) {
         ref={input}
         name="search"
         type="text"
-        placeholder="Search..."
+        placeholder="Click here to search patient..."
         className={styles["search-1"]}
         autoComplete="off"
         onKeyPress={speclChar}
         onInput={onChangeInput}
         onChange={onInputChange}
       />
-      <Button
+      {/* <Button
         //renderIcon={Add}
         iconDescription=""
         hasIconOnly
         onClick={onClickChangeButton}
         className={styles.Button}
         size="sm"
-      />
+      /> */}
       <div
         className={isSearching ? styles.searchResults_Show : styles.desactive}
       >
